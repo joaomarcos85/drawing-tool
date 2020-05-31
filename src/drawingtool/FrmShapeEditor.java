@@ -1,15 +1,21 @@
 package drawingtool;
 
-import drawingtool.interactor.CursorInteractor;
-import drawingtool.interactor.MoveInteractor;
-import drawingtool.interactor.PickerInteractor;
-import drawingtool.interactor.ResizeInteractor;
 import drawingtool.listener.ShapeListener;
+import drawingtool.log.Log;
+import drawingtool.io.Document;
+import drawingtool.io.parser.DocumentFactory;
+import drawingtool.io.parser.FactoryException;
+import drawingtool.io.parser.json.JSONDocumentFactory;
 import drawingtool.shapes.Arrow;
 import drawingtool.shapes.Ellipse;
 import drawingtool.shapes.Rectangle;
 import drawingtool.shapes.Shape;
-import drawingtool.shapes.Text;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
 
 /**
  *
@@ -46,6 +52,8 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         btnAddEllipse = new javax.swing.JButton();
         btnAddArrow = new javax.swing.JButton();
         lblRotationAngle = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
+        btnLoad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,12 +104,32 @@ public class FrmShapeEditor extends javax.swing.JFrame {
 
         lblRotationAngle.setText("Rotation angle");
 
+        btnSave.setText("Save");
+        btnSave.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnLoad.setText("Load");
+        btnLoad.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(btnSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLoad)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddRectangle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddEllipse)
@@ -115,7 +143,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 .addComponent(btnZoomIn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnZoomOut)
-                .addGap(0, 130, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -130,7 +158,9 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     .addComponent(btnZoomOut)
                     .addComponent(btnAddEllipse)
                     .addComponent(btnAddArrow)
-                    .addComponent(lblRotationAngle))
+                    .addComponent(lblRotationAngle)
+                    .addComponent(btnSave)
+                    .addComponent(btnLoad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
@@ -168,10 +198,39 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         canvas.addShape(arrow);
     }//GEN-LAST:event_btnAddArrowActionPerformed
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        InputStream is = null;
+        try {
+            //Creates the document factory
+            DocumentFactory factory = new JSONDocumentFactory();
+            //Read the file
+            is = new FileInputStream(new File("example.json"));
+            //Creates the document
+            Document document = factory.createDocument(is);
+            //Sets the document in Canvas
+            canvas.setDocument(document);
+        } catch (FileNotFoundException | FactoryException ex) {
+            Log.LOGGER.log(Level.SEVERE, "Error loading file", ex);
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Log.LOGGER.log(Level.SEVERE, "Error closing file", ex);
+            }
+        }
+    }//GEN-LAST:event_btnLoadActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddArrow;
     private javax.swing.JButton btnAddEllipse;
     private javax.swing.JButton btnAddRectangle;
+    private javax.swing.JButton btnLoad;
+    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnZoomIn;
     private javax.swing.JButton btnZoomOut;
     private javax.swing.JLabel lblRotationAngle;
