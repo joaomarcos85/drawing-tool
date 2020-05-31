@@ -1,8 +1,10 @@
 package drawingtool.shapes;
 
+import drawingtool.io.ParserConstants;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import org.json.JSONObject;
 
 /**
  *
@@ -20,6 +22,11 @@ public class Rectangle extends Shape {
 
     public Rectangle(float x, float y, float w, float h) {
         rect = new Rectangle2D.Float(x, y, w, h);
+    }
+
+    public Rectangle(float x, float y, float w, float h, float angle) {
+        this(x, y, w, h);
+        setAngle(angle);
     }
 
     @Override
@@ -80,6 +87,16 @@ public class Rectangle extends Shape {
     @Override
     public boolean isResizable() {
         return resizable;
+    }
+
+    @Override
+    public void setAttributes(JSONObject shapeJSON) {
+
+    }
+
+    @Override
+    public String getTypeName() {
+        return ParserConstants.TYPE_RECT;
     }
 
     @Override

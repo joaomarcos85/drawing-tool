@@ -1,10 +1,10 @@
 package drawingtool.shapes;
 
+import drawingtool.io.ParserConstants;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
+import org.json.JSONObject;
 
 /**
  *
@@ -90,6 +90,16 @@ public class Ellipse extends Shape {
     @Override
     public void setHeight(float height) {
         createShape(getX(), getY(), getWidth(), height);
+    }
+
+    @Override
+    public void setAttributes(JSONObject shapeJSON) {
+
+    }
+    
+    @Override
+    public String getTypeName() {
+        return ParserConstants.TYPE_ELLIPSE;
     }
 
     @Override

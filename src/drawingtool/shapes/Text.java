@@ -1,11 +1,13 @@
 package drawingtool.shapes;
 
+import drawingtool.io.ParserConstants;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Rectangle2D;
+import org.json.JSONObject;
 
 /**
  *
@@ -37,14 +39,6 @@ public class Text extends Shape {
 
     private void createShape(Graphics2D g2) {
         shape = new Rectangle2D.Float(x, y, width, height);
-
-//        Rectangle2D r2d = g2.getFontMetrics(font).getStringBounds(text, g2);
-//        font = font.deriveFont((float) (font.getSize2D() * 100 / r2d.getWidth()));
-//
-//        GlyphVector v = this.getFont().createGlyphVector(
-//                getFontMetrics(this.getFont()).getFontRenderContext(), this.gett);
-//        s = v.getOutline();
-//        shape = new Ellipse2D.Float(x, y, w, h);
     }
 
     @Override
@@ -73,6 +67,10 @@ public class Text extends Shape {
 
     public void setFont(Font font) {
         this.font = font;
+    }
+
+    public String getFontName() {
+        return this.font.getFontName();
     }
 
     public String getText() {
@@ -121,6 +119,17 @@ public class Text extends Shape {
     @Override
     public void setHeight(float height) {
         this.height = height;
+    }
+
+    @Override
+    public void setAttributes(JSONObject shapeJSON) {
+        shapeJSON.put(ParserConstants.TEXT, this.getText());
+        shapeJSON.put(ParserConstants.FONT_NAME, this.getFontName());
+    }
+
+    @Override
+    public String getTypeName() {
+        return ParserConstants.TYPE_TEXT;
     }
 
     @Override

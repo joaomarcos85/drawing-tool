@@ -17,10 +17,11 @@ import drawingtool.interactor.Interactor;
 import drawingtool.interactor.MoveInteractor;
 import drawingtool.interactor.PickerInteractor;
 import drawingtool.interactor.ResizeInteractor;
+import drawingtool.io.AbstractDocument;
 import drawingtool.listener.ShapeListener;
+import drawingtool.io.Document;
 import drawingtool.selector.Selector;
 import drawingtool.shapes.Shape;
-import java.util.EventListener;
 
 /**
  *
@@ -28,12 +29,12 @@ import java.util.EventListener;
  */
 public class Canvas extends javax.swing.JPanel {
 
-    private final ArrayList<Shape> shapes = new ArrayList<>();
     private final ArrayList<Interactor> interactors = new ArrayList<>();
     private final ArrayList<ShapeListener> shapeListener = new ArrayList<>();
     private Selector shapeSelector;
     private float zoomFactor = 1.0f;
     private AffineTransform at;
+    private Document document = new AbstractDocument();
 
     public Canvas() {
         setZoom(zoomFactor);
@@ -49,6 +50,9 @@ public class Canvas extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (document == null) {
+            return;
+        }
         Graphics2D g2 = (Graphics2D) g;
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -64,7 +68,7 @@ public class Canvas extends javax.swing.JPanel {
 
         g2.setTransform(at);
         //Draw the shapes
-        for (Shape shape : shapes) {
+        for (Shape shape : document.getShapes()) {
             shape.paint(g2);
         }
 
@@ -136,8 +140,8 @@ public class Canvas extends javax.swing.JPanel {
     public boolean removeShapeListener(ShapeListener listener) {
         return this.shapeListener.remove(listener);
     }
-    
-    public ArrayList<ShapeListener> getShapeListeners(){
+
+    public ArrayList<ShapeListener> getShapeListeners() {
         return this.shapeListener;
     }
 
@@ -146,23 +150,23 @@ public class Canvas extends javax.swing.JPanel {
     }
 
     public void addShape(Shape shape) {
-        this.shapes.add(shape);
+        this.document.getShapes().add(shape);
         //Update the canvas
         this.repaint();
     }
 
     public void removeShape(Shape shape) {
-        this.shapes.remove(shape);
+        this.document.getShapes().remove(shape);
         //Update the canvas
         this.repaint();
     }
 
     public ArrayList<Shape> getShapes() {
-        return shapes;
+        return this.document.getShapes();
     }
 
     public drawingtool.shapes.Shape getSelectedShape() {
-        for (Shape shape : shapes) {
+        for (Shape shape : document.getShapes()) {
             if (shape.isSelected()) {
                 return shape;
             }
@@ -203,6 +207,11 @@ public class Canvas extends javax.swing.JPanel {
             ex.printStackTrace();
         }
         return new Point((int) convertedPt.getX(), (int) convertedPt.getY());
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+        this.repaint();
     }
 
 }
