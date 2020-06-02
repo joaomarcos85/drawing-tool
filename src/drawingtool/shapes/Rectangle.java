@@ -1,10 +1,10 @@
 package drawingtool.shapes;
 
 import drawingtool.io.ParserConstants;
+import drawingtool.io.ShapeData;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import org.json.JSONObject;
 
 /**
  *
@@ -13,20 +13,31 @@ import org.json.JSONObject;
 public class Rectangle extends Shape {
 
     private Rectangle2D.Float rect;
-    private float angle = 0;
+    private float angle;
     private boolean resizable = true;
 
+    public Rectangle(ShapeData shapeData) {
+        super(shapeData);
+    }
+
     public Rectangle() {
-        rect = new Rectangle2D.Float();
+        super(new ShapeData());
+        createShape(0, 0, 0, 0);
     }
 
     public Rectangle(float x, float y, float w, float h) {
-        rect = new Rectangle2D.Float(x, y, w, h);
+        super(new ShapeData());
+        createShape(x, y, h, h);
     }
 
     public Rectangle(float x, float y, float w, float h, float angle) {
         this(x, y, w, h);
         setAngle(angle);
+    }
+
+    @Override
+    protected void createShape(float x, float y, float width, float height) {
+        rect = new Rectangle2D.Float(x, y, width, height);
     }
 
     @Override
@@ -87,11 +98,6 @@ public class Rectangle extends Shape {
     @Override
     public boolean isResizable() {
         return resizable;
-    }
-
-    @Override
-    public void setAttributes(JSONObject shapeJSON) {
-
     }
 
     @Override

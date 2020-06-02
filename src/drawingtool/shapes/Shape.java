@@ -1,11 +1,11 @@
 package drawingtool.shapes;
 
 import drawingtool.io.ParserConstants;
+import drawingtool.io.ShapeData;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import org.json.JSONObject;
 
 /**
  *
@@ -14,15 +14,18 @@ import org.json.JSONObject;
 public abstract class Shape implements java.io.Serializable {
 
     private boolean isSelected = false;
-
     private boolean resizing = false;
-
     public float Xaxis = 0;
     public float Yaxis = 0;
-
     private Color bgColor = Color.yellow;
+    private ShapeData shapeData;
 
-    public Shape() {
+//    protected Shape() {
+//        this(new ShapeData());
+//    }
+    public Shape(ShapeData shapeData) {
+        this.shapeData = shapeData;
+        this.loadShapeData(shapeData);
     }
 
     public abstract java.awt.Shape getShape();
@@ -51,25 +54,9 @@ public abstract class Shape implements java.io.Serializable {
 
     public abstract void paint(Graphics2D g2);
 
-    public abstract void setAttributes(JSONObject shapeJSON);
-
     public abstract String getTypeName();
 
-    public final JSONObject getJSON() {
-        JSONObject shapeJSON = new JSONObject();
-        setCommonAttributes(shapeJSON);
-        setAttributes(shapeJSON);
-        return shapeJSON;
-    }
-
-    private void setCommonAttributes(JSONObject shapeJSON) {
-        shapeJSON.put(ParserConstants.TYPE_NAME, this.getTypeName());
-        shapeJSON.put(ParserConstants.X, this.getX());
-        shapeJSON.put(ParserConstants.Y, this.getY());
-        shapeJSON.put(ParserConstants.WIDTH, this.getWidth());
-        shapeJSON.put(ParserConstants.HEIGHT, this.getHeight());
-        shapeJSON.put(ParserConstants.ANGLE, this.getAngle());
-    }
+    protected abstract void createShape(float x, float y, float width, float height);
 
     public boolean contains(Point2D p) {
         AffineTransform affineTransform = new AffineTransform();
@@ -98,10 +85,6 @@ public abstract class Shape implements java.io.Serializable {
         if (isResizing) {
             Xaxis = getX() + (getWidth() / 2);
             Yaxis = getY() + (getHeight() / 2);
-        } else {
-            //float newX = (getX() + (getWidth() / 2)) - Xaxis;
-
-            //setX(getX()+newX);
         }
     }
 
@@ -111,6 +94,25 @@ public abstract class Shape implements java.io.Serializable {
 
     public void setBackgroundColor(Color bgColor) {
         this.bgColor = bgColor;
+    }
+
+    public ShapeData getShapeData() {
+        this.shapeData.put(ParserConstants.X, this.getX());
+        this.shapeData.put(ParserConstants.Y, this.getY());
+        this.shapeData.put(ParserConstants.WIDTH, this.getWidth());
+        this.shapeData.put(ParserConstants.HEIGHT, this.getHeight());
+        this.shapeData.put(ParserConstants.ANGLE, this.getAngle());
+        this.shapeData.put(ParserConstants.TYPE_NAME, this.getTypeName());
+        return shapeData;
+    }
+
+    protected void loadShapeData(ShapeData shapeData) {
+        this.createShape(0, 0, 0, 0);
+        this.setX(shapeData.getFloat(ParserConstants.X, 0));
+        this.setY(shapeData.getFloat(ParserConstants.Y, 0));
+        this.setWidth(shapeData.getFloat(ParserConstants.WIDTH, 0));
+        this.setHeight(shapeData.getFloat(ParserConstants.HEIGHT, 0));
+        this.setAngle(shapeData.getFloat(ParserConstants.ANGLE, 0));
     }
 
 }

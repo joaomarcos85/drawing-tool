@@ -1,6 +1,6 @@
-package drawingtool.io.parser.json.shape;
+package drawingtool.io.parser.shape;
 
-import drawingtool.io.parser.ShapeData;
+import drawingtool.io.ShapeData;
 import drawingtool.io.parser.ShapeFactory;
 import drawingtool.shapes.Rectangle;
 import drawingtool.shapes.Shape;
@@ -13,8 +13,7 @@ public class RectFactory extends ShapeFactory {
 
     @Override
     public Shape create(ShapeData shapeData) {
-        Rectangle arrow = new Rectangle();
-        this.setCommonAttributes(arrow, shapeData);
+        Rectangle arrow = new Rectangle(shapeData);
         return arrow;
     }
 

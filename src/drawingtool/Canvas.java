@@ -214,4 +214,8 @@ public class Canvas extends javax.swing.JPanel {
         this.repaint();
     }
 
+    public Document getDocument() {
+        return document;
+    }
+
 }

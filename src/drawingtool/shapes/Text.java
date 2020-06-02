@@ -1,13 +1,13 @@
 package drawingtool.shapes;
 
 import drawingtool.io.ParserConstants;
+import drawingtool.io.ShapeData;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Rectangle2D;
-import org.json.JSONObject;
 
 /**
  *
@@ -16,28 +16,35 @@ import org.json.JSONObject;
 public class Text extends Shape {
 
     private java.awt.Shape shape;
-    private float angle = 0;
+    private float angle;
     private boolean resizable = true;
-    private Font font = new Font("Arial", Font.PLAIN, 96);
-    private String text = " oao marcos";
-    private float x = 0;
-    private float y = 0;
-    private float width = 100;
-    private float height = 20;
-    private float fontSize = 10;
+    private float x;
+    private float y;
+    private float width;
+    private float height;
+    private String text;
+    private String fontName;
+    private int fontStyle;
+    private Font font = null;
+
+    public Text(ShapeData shapeData) {
+        super(shapeData);
+    }
 
     public Text() {
-
+        super(new ShapeData());
     }
 
     public Text(float x, float y, float w, float h) {
+        super(new ShapeData());
         this.x = x;
         this.y = y;
         this.width = w;
         this.height = h;
     }
 
-    private void createShape(Graphics2D g2) {
+    @Override
+    protected void createShape(float x, float y, float width, float height) {
         shape = new Rectangle2D.Float(x, y, width, height);
     }
 
@@ -61,16 +68,30 @@ public class Text extends Shape {
         return resizable;
     }
 
-    public Font getFont() {
+    private Font getFont() {
+        //Checks if the font is already created
+        if (this.font == null || !this.font.getFontName().equals(this.getFontName())
+                || this.font.getStyle() != this.fontStyle) {
+            //Creates a new Font
+            font = new Font(this.getFontName(), this.getFontStyle(), 96);
+        }
         return font;
     }
 
-    public void setFont(Font font) {
-        this.font = font;
+    public String getFontName() {
+        return fontName;
     }
 
-    public String getFontName() {
-        return this.font.getFontName();
+    public void setFontName(String fontName) {
+        this.fontName = fontName;
+    }
+
+    public int getFontStyle() {
+        return fontStyle;
+    }
+
+    public void setFontStyle(int fontStyle) {
+        this.fontStyle = fontStyle;
     }
 
     public String getText() {
@@ -122,14 +143,23 @@ public class Text extends Shape {
     }
 
     @Override
-    public void setAttributes(JSONObject shapeJSON) {
-        shapeJSON.put(ParserConstants.TEXT, this.getText());
-        shapeJSON.put(ParserConstants.FONT_NAME, this.getFontName());
+    public String getTypeName() {
+        return ParserConstants.TYPE_TEXT;
     }
 
     @Override
-    public String getTypeName() {
-        return ParserConstants.TYPE_TEXT;
+    public ShapeData getShapeData() {
+        ShapeData data = super.getShapeData();
+        data.put(ParserConstants.TEXT, this.getText());
+        data.put(ParserConstants.FONT_NAME, this.getFontName());
+        return data;
+    }
+
+    @Override
+    protected void loadShapeData(ShapeData shapeData) {
+        super.loadShapeData(shapeData);
+        this.setText(shapeData.getString(ParserConstants.TEXT, "Example"));
+        this.setFontName(shapeData.getString(ParserConstants.FONT_NAME, "Arial"));
     }
 
     @Override
@@ -152,9 +182,10 @@ public class Text extends Shape {
                 centerX,
                 centerY);
 
-        createShape(g2);
+        this.createShape(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-        g2.setFont(getFont());
+        Font font = this.getFont();
+        g2.setFont(font);
         FontRenderContext frc = g2.getFontRenderContext();
         LineMetrics metrics = font.getLineMetrics(getText(), frc);
         // Try omitting the descent from the height variable.

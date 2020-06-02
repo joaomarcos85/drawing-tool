@@ -1,6 +1,7 @@
 package drawingtool.shapes;
 
 import drawingtool.io.ParserConstants;
+import drawingtool.io.ShapeData;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -13,22 +14,25 @@ import org.json.JSONObject;
 public class Ellipse extends Shape {
 
     private Ellipse2D shape;
-    private float angle = 0;
+    private float angle;
     private boolean resizable = true;
 
+    public Ellipse(ShapeData shapeData) {
+        super(shapeData);
+    }
+
     public Ellipse() {
-        createShape();
-    }
-
-    public Ellipse(float x, float y, float w, float h) {
-        createShape(x, y, w, h);
-    }
-
-    private void createShape() {
+        super(new ShapeData());
         createShape(0, 0, 0, 0);
     }
 
-    private void createShape(float x, float y, float w, float h) {
+    public Ellipse(float x, float y, float w, float h) {
+        super(new ShapeData());
+        createShape(x, y, w, h);
+    }
+
+    @Override
+    protected void createShape(float x, float y, float w, float h) {
         shape = new Ellipse2D.Float(x, y, w, h);
     }
 
@@ -92,11 +96,6 @@ public class Ellipse extends Shape {
         createShape(getX(), getY(), getWidth(), height);
     }
 
-    @Override
-    public void setAttributes(JSONObject shapeJSON) {
-
-    }
-    
     @Override
     public String getTypeName() {
         return ParserConstants.TYPE_ELLIPSE;
