@@ -1,6 +1,6 @@
-package drawingtool.io.parser.json.shape;
+package drawingtool.io.parser.shape;
 
-import drawingtool.io.parser.ShapeData;
+import drawingtool.io.ShapeData;
 import drawingtool.io.parser.ShapeFactory;
 import drawingtool.shapes.Ellipse;
 import drawingtool.shapes.Rectangle;
@@ -14,8 +14,7 @@ public class EllipseFactory extends ShapeFactory {
 
     @Override
     public Shape create(ShapeData shapeData) {
-        Ellipse ellipse = new Ellipse();
-        this.setCommonAttributes(ellipse, shapeData);
+        Ellipse ellipse = new Ellipse(shapeData);
         return ellipse;
     }
 

@@ -6,16 +6,21 @@ import drawingtool.io.Document;
 import drawingtool.io.parser.DocumentFactory;
 import drawingtool.io.parser.FactoryException;
 import drawingtool.io.parser.json.JSONDocumentFactory;
+import drawingtool.io.transformer.DocumentTransformer;
+import drawingtool.io.transformer.json.JSONDocumentTransformer;
 import drawingtool.shapes.Arrow;
 import drawingtool.shapes.Ellipse;
 import drawingtool.shapes.Rectangle;
 import drawingtool.shapes.Shape;
+import drawingtool.shapes.Text;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -199,8 +204,20 @@ public class FrmShapeEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddArrowActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-
-
+        FileWriter fileWriter = null;
+        try {
+            DocumentTransformer transformer = new JSONDocumentTransformer();
+            fileWriter = new FileWriter("example.json");
+            transformer.transform(canvas.getDocument(), fileWriter);
+        } catch (IOException ex) {
+            Log.LOGGER.log(Level.SEVERE, "Error writing file", ex);
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException ex) {
+                Log.LOGGER.log(Level.SEVERE, "Error closing file", ex);
+            }
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed

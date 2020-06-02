@@ -1,20 +1,20 @@
-package drawingtool.io.parser.json.shape;
+package drawingtool.io.parser.shape;
 
-import drawingtool.io.parser.ShapeData;
+import drawingtool.io.ShapeData;
 import drawingtool.io.parser.ShapeFactory;
 import drawingtool.shapes.Rectangle;
 import drawingtool.shapes.Shape;
+import drawingtool.shapes.Text;
 
 /**
  *
  * @author Joao
  */
-public class ArrowFactory extends ShapeFactory {
+public class TextFactory extends ShapeFactory {
 
     @Override
     public Shape create(ShapeData shapeData) {
-        Rectangle arrow = new Rectangle();
-        this.setCommonAttributes(arrow, shapeData);
+        Text arrow = new Text(shapeData);
         return arrow;
     }
 

@@ -1,19 +1,12 @@
 package drawingtool.io.parser.json;
 
 import drawingtool.io.JSONDocument;
-import drawingtool.io.JSONDocument;
-import drawingtool.io.parser.json.shape.RectFactory;
-import drawingtool.io.parser.json.shape.ArrowFactory;
-import drawingtool.io.ParserConstants;
 import drawingtool.io.ParserConstants;
 import drawingtool.io.parser.ShapeFactory;
 import drawingtool.io.parser.DocumentFactory;
 import drawingtool.io.parser.FactoryException;
 import drawingtool.io.parser.json.ShapeDataJSON;
-import drawingtool.io.parser.json.shape.EllipseFactory;
 import drawingtool.shapes.Shape;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import org.json.JSONArray;
@@ -25,12 +18,6 @@ import org.json.JSONTokener;
  * @author Joao
  */
 public class JSONDocumentFactory extends DocumentFactory {
-
-    public JSONDocumentFactory() {
-        factories.put(ParserConstants.TYPE_ARROW, new ArrowFactory());
-        factories.put(ParserConstants.TYPE_ELLIPSE, new EllipseFactory());
-        factories.put(ParserConstants.TYPE_RECT, new RectFactory());
-    }
 
     @Override
     protected JSONObject parse(InputStream is) {
