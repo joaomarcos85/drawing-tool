@@ -211,6 +211,7 @@ public class Canvas extends javax.swing.JPanel {
 
     public void setDocument(Document document) {
         this.document = document;
+        this.setShapeSelector(null);
         this.repaint();
     }
 
