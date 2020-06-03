@@ -187,15 +187,15 @@ public class Text extends Shape {
         Font font = this.getFont();
         g2.setFont(font);
         FontRenderContext frc = g2.getFontRenderContext();
-        LineMetrics metrics = font.getLineMetrics(getText(), frc);
+        LineMetrics metrics = font.getLineMetrics(this.getText(), frc);
         // Try omitting the descent from the height variable.
         float height = metrics.getAscent() + metrics.getDescent();
-        double width = font.getStringBounds(getText(), frc).getWidth();
+        double width = font.getStringBounds(this.getText(), frc).getWidth();
         float w2 = getWidth();
         float h2 = getHeight();
         g2.translate(x, y);
         g2.scale(w2 / width, h2 / height);
-        g2.drawString(getText(), 0, (metrics.getAscent() - 1));
+        g2.drawString(this.getText(), 0, (metrics.getAscent() - 1));
         g2.dispose();
     }
 
