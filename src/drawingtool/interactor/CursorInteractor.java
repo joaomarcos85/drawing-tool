@@ -1,6 +1,6 @@
 package drawingtool.interactor;
 
-import drawingtool.Canvas;
+import drawingtool.ui.Canvas;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseEvent;

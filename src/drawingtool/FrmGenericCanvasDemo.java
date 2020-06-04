@@ -1,5 +1,6 @@
 package drawingtool;
 
+import drawingtool.ui.GenericCanvas;
 import drawingtool.io.Document;
 import drawingtool.io.parser.DocumentFactory;
 import drawingtool.io.parser.FactoryException;

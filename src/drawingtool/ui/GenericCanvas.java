@@ -1,4 +1,4 @@
-package drawingtool;
+package drawingtool.ui;
 
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
