@@ -1,4 +1,4 @@
-package drawingtool;
+package drawingtool.demo;
 
 import drawingtool.ui.Canvas;
 import drawingtool.listener.ShapeListener;

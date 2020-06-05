@@ -1,5 +1,6 @@
 package drawingtool;
 
+import drawingtool.demo.FrmShapeEditor;
 import drawingtool.log.Log;
 import java.util.logging.Level;
 import javax.swing.SwingUtilities;

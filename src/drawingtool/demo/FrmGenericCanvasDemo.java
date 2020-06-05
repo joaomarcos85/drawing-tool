@@ -1,4 +1,4 @@
-package drawingtool;
+package drawingtool.demo;
 
 import drawingtool.ui.GenericCanvas;
 import drawingtool.io.Document;
