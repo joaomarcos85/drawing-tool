@@ -63,6 +63,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         btnAddText = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Canvas Editor Demo");
 
         pnlDrawer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlDrawer.setLayout(new java.awt.BorderLayout());
