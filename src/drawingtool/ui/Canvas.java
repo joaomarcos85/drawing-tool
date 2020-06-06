@@ -1,4 +1,4 @@
-package drawingtool;
+package drawingtool.ui;
 
 import drawingtool.interactor.CursorInteractor;
 import java.awt.Graphics;

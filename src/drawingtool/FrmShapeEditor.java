@@ -1,5 +1,6 @@
 package drawingtool;
 
+import drawingtool.ui.Canvas;
 import drawingtool.listener.ShapeListener;
 import drawingtool.log.Log;
 import drawingtool.io.Document;
