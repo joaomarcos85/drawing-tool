@@ -9,6 +9,6 @@ import java.io.Writer;
  */
 public abstract class DocumentTransformer {
 
-    public abstract void transform(Document document, Writer writer);
+    public abstract void transform(Document document, Writer writer) throws Exception;
 
 }

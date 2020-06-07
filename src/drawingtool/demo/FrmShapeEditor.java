@@ -236,7 +236,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
             DocumentTransformer transformer = new JSONDocumentTransformer();
             fileWriter = new FileWriter("example.json");
             transformer.transform(canvas.getDocument(), fileWriter);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Log.LOGGER.log(Level.SEVERE, "Error writing file", ex);
         } finally {
             try {
