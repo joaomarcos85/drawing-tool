@@ -11,6 +11,7 @@ import drawingtool.io.transformer.DocumentTransformer;
 import drawingtool.io.transformer.json.JSONDocumentTransformer;
 import drawingtool.shapes.Arrow;
 import drawingtool.shapes.Ellipse;
+import drawingtool.shapes.Image;
 import drawingtool.shapes.Rectangle;
 import drawingtool.shapes.Shape;
 import drawingtool.shapes.Text;
@@ -21,6 +22,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,7 +37,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         initComponents();
 
         pnlDrawer.add(canvas);
-        this.setBounds(0, 0, 720, 400);
+        this.setBounds(0, 0, 820, 400);
 
         canvas.addShapeListener(new ShapeListener() {
             @Override
@@ -61,6 +63,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnLoad = new javax.swing.JButton();
         btnAddText = new javax.swing.JButton();
+        btnAddImage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Canvas Editor Demo");
@@ -135,6 +138,13 @@ public class FrmShapeEditor extends javax.swing.JFrame {
             }
         });
 
+        btnAddImage.setText("Add Image");
+        btnAddImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddImageActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -153,6 +163,8 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAddImage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRotationAngle)
                 .addGap(9, 9, 9)
                 .addComponent(spnRotationAngle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,20 +180,21 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAddText, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAddRectangle)
-                        .addComponent(spnRotationAngle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnZoomIn)
-                        .addComponent(btnZoomOut)
-                        .addComponent(btnAddEllipse)
-                        .addComponent(btnAddArrow)
-                        .addComponent(lblRotationAngle)
-                        .addComponent(btnSave)
-                        .addComponent(btnLoad)))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddRectangle)
+                    .addComponent(spnRotationAngle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnZoomIn)
+                    .addComponent(btnZoomOut)
+                    .addComponent(btnAddEllipse)
+                    .addComponent(btnAddArrow)
+                    .addComponent(lblRotationAngle)
+                    .addComponent(btnSave)
+                    .addComponent(btnLoad)
+                    .addComponent(btnAddText)
+                    .addComponent(btnAddImage))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(lblZoom))
         );
@@ -267,9 +280,20 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         canvas.addShape(text);
     }//GEN-LAST:event_btnAddTextActionPerformed
 
+    private void btnAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImageActionPerformed
+        try {
+            Image image = new Image(new File("test/loremipsum.png"), 20, 150, 200, 150);
+            image.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+            canvas.addShape(image);
+        } catch (IOException ex) {
+            Log.LOGGER.log(Level.SEVERE, "Error adding image", ex);
+        }
+    }//GEN-LAST:event_btnAddImageActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddArrow;
     private javax.swing.JButton btnAddEllipse;
+    private javax.swing.JButton btnAddImage;
     private javax.swing.JButton btnAddRectangle;
     private javax.swing.JButton btnAddText;
     private javax.swing.JButton btnLoad;

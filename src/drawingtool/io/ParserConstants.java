@@ -19,6 +19,7 @@ public class ParserConstants {
     //Types of Shapes
     public final static String TYPE_ARROW = "arrow";
     public final static String TYPE_ELLIPSE = "ellipse";
+    public final static String TYPE_IMAGE = "img";
     public final static String TYPE_RECT = "rect";
     public final static String TYPE_TEXT = "text";
 
