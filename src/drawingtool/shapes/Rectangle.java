@@ -27,7 +27,7 @@ public class Rectangle extends Shape {
 
     public Rectangle(float x, float y, float w, float h) {
         super(new ShapeData());
-        createShape(x, y, h, h);
+        createShape(x, y, w, h);
     }
 
     public Rectangle(float x, float y, float w, float h, float angle) {
