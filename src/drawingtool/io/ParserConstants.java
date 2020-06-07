@@ -15,6 +15,7 @@ public class ParserConstants {
     public final static String ANGLE = "angle";
     public final static String TEXT = "text";
     public final static String FONT_NAME = "font-name";
+    public final static String IMAGE_DATA = "img-data";
 
     //Types of Shapes
     public final static String TYPE_ARROW = "arrow";

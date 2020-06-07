@@ -148,7 +148,7 @@ public class Text extends Shape {
     }
 
     @Override
-    public ShapeData getShapeData() {
+    public ShapeData getShapeData() throws Exception {
         ShapeData data = super.getShapeData();
         data.put(ParserConstants.TEXT, this.getText());
         data.put(ParserConstants.FONT_NAME, this.getFontName());

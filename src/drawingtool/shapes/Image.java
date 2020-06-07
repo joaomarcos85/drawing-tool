@@ -3,19 +3,22 @@ package drawingtool.shapes;
 import drawingtool.io.ParserConstants;
 import drawingtool.io.ShapeData;
 import drawingtool.log.Log;
+import drawingtool.util.Base64;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Base64;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -153,6 +156,21 @@ public class Image extends Shape {
 
     public BufferedImage getImg() {
         return img;
+    }
+
+    @Override
+    public ShapeData getShapeData() throws Exception {
+        //Get the default data
+        ShapeData data = super.getShapeData();
+
+        Base64 base64encoder = new Base64();
+        ByteArrayOutputStream bais = new ByteArrayOutputStream();
+
+        ImageIO.write(this.getImg(), "png", bais);
+
+        String base64 = base64encoder.encodeToString(bais.toByteArray(), false);
+        data.put(ParserConstants.IMAGE_DATA, base64);
+        return data;
     }
 
     @Override
