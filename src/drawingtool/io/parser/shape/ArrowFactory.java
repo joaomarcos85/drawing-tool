@@ -12,7 +12,7 @@ import drawingtool.shapes.Shape;
 public class ArrowFactory extends ShapeFactory {
 
     @Override
-    public Shape create(ShapeData shapeData) {
+    public Shape create(ShapeData shapeData) throws Exception {
         Arrow arrow = new Arrow(shapeData);
         return arrow;
     }

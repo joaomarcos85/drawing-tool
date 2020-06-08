@@ -12,7 +12,7 @@ import drawingtool.shapes.Shape;
 public class RectFactory extends ShapeFactory {
 
     @Override
-    public Shape create(ShapeData shapeData) {
+    public Shape create(ShapeData shapeData) throws Exception {
         Rectangle arrow = new Rectangle(shapeData);
         return arrow;
     }

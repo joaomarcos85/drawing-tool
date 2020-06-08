@@ -13,7 +13,7 @@ import drawingtool.shapes.Shape;
 public class EllipseFactory extends ShapeFactory {
 
     @Override
-    public Shape create(ShapeData shapeData) {
+    public Shape create(ShapeData shapeData) throws Exception {
         Ellipse ellipse = new Ellipse(shapeData);
         return ellipse;
     }

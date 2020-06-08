@@ -9,6 +9,6 @@ import drawingtool.shapes.Shape;
  */
 public abstract class ShapeFactory {
 
-    public abstract Shape create(ShapeData shapeData);
+    public abstract Shape create(ShapeData shapeData) throws Exception;
 
 }

@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -203,9 +204,13 @@ public class FrmShapeEditor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRectangleActionPerformed
-        Rectangle rectangle = new Rectangle(20, 150, 200, 150);
-        rectangle.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-        canvas.addShape(rectangle);
+        try {
+            Rectangle rectangle = new Rectangle(20, 150, 200, 150);
+            rectangle.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+            canvas.addShape(rectangle);
+        } catch (Exception ex) {
+            Log.LOGGER.log(Level.SEVERE, "Error adding rectangle", ex);
+        }
     }//GEN-LAST:event_btnAddRectangleActionPerformed
 
     private void btnZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomInActionPerformed
@@ -219,15 +224,23 @@ public class FrmShapeEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnZoomOutActionPerformed
 
     private void btnAddEllipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEllipseActionPerformed
-        Ellipse ellipse = new Ellipse(20, 150, 200, 150);
-        ellipse.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-        canvas.addShape(ellipse);
+        try {
+            Ellipse ellipse = new Ellipse(20, 150, 200, 150);
+            ellipse.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+            canvas.addShape(ellipse);
+        } catch (Exception ex) {
+            Log.LOGGER.log(Level.SEVERE, "Error adding ellipse", ex);
+        }
     }//GEN-LAST:event_btnAddEllipseActionPerformed
 
     private void btnAddArrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddArrowActionPerformed
-        Arrow arrow = new Arrow(20, 150, 200, 150);
-        arrow.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-        canvas.addShape(arrow);
+        try {
+            Arrow arrow = new Arrow(20, 150, 200, 150);
+            arrow.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+            canvas.addShape(arrow);
+        } catch (Exception ex) {
+            Log.LOGGER.log(Level.SEVERE, "Error adding arrow", ex);
+        }
     }//GEN-LAST:event_btnAddArrowActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -270,14 +283,19 @@ public class FrmShapeEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnAddTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTextActionPerformed
-        Text text = new Text(20, 150, 200, 150);
-        text.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+        try {
+            Text text = new Text(20, 150, 200, 150);
 
-        Object value = JOptionPane.showInputDialog(this, "Enter the text");
-        if (value != null) {
-            text.setText(String.valueOf(value));
+            text.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+
+            Object value = JOptionPane.showInputDialog(this, "Enter the text");
+            if (value != null) {
+                text.setText(String.valueOf(value));
+            }
+            canvas.addShape(text);
+        } catch (Exception ex) {
+            Log.LOGGER.log(Level.SEVERE, "Error adding text", ex);
         }
-        canvas.addShape(text);
     }//GEN-LAST:event_btnAddTextActionPerformed
 
     private void btnAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImageActionPerformed
@@ -285,10 +303,11 @@ public class FrmShapeEditor extends javax.swing.JFrame {
             Image image = new Image(new File("test/loremipsum.png"), 20, 150, 200, 150);
             image.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
             canvas.addShape(image);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Log.LOGGER.log(Level.SEVERE, "Error adding image", ex);
         }
     }//GEN-LAST:event_btnAddImageActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddArrow;

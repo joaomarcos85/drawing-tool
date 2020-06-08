@@ -16,21 +16,21 @@ public class Rectangle extends Shape {
     private float angle;
     private boolean resizable = true;
 
-    public Rectangle(ShapeData shapeData) {
+    public Rectangle(ShapeData shapeData) throws Exception {
         super(shapeData);
     }
 
-    public Rectangle() {
+    public Rectangle() throws Exception {
         super(new ShapeData());
         createShape(0, 0, 0, 0);
     }
 
-    public Rectangle(float x, float y, float w, float h) {
+    public Rectangle(float x, float y, float w, float h) throws Exception {
         super(new ShapeData());
         createShape(x, y, w, h);
     }
 
-    public Rectangle(float x, float y, float w, float h, float angle) {
+    public Rectangle(float x, float y, float w, float h, float angle) throws Exception {
         this(x, y, w, h);
         setAngle(angle);
     }

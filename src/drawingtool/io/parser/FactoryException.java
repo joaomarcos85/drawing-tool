@@ -6,6 +6,10 @@ package drawingtool.io.parser;
  */
 public class FactoryException extends Exception {
 
+    public FactoryException(Throwable cause) {
+        super(cause);
+    }
+
     public FactoryException(String message, Throwable cause) {
         super(message, cause);
     }
