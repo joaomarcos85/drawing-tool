@@ -2,20 +2,19 @@ package drawingtool.io.parser.shape;
 
 import drawingtool.io.ShapeData;
 import drawingtool.io.parser.ShapeFactory;
-import drawingtool.shapes.Rectangle;
+import drawingtool.shapes.Image;
 import drawingtool.shapes.Shape;
-import drawingtool.shapes.Text;
 
 /**
  *
  * @author Joao
  */
-public class TextFactory extends ShapeFactory {
+public class ImageFactory extends ShapeFactory {
 
     @Override
     public Shape create(ShapeData shapeData) throws Exception {
-        Text arrow = new Text(shapeData);
-        return arrow;
+        Image image = new Image(shapeData);
+        return image;
     }
 
 }

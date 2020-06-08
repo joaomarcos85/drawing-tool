@@ -5,7 +5,6 @@ import drawingtool.io.ShapeData;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-import org.json.JSONObject;
 
 /**
  *
@@ -17,16 +16,16 @@ public class Ellipse extends Shape {
     private float angle;
     private boolean resizable = true;
 
-    public Ellipse(ShapeData shapeData) {
+    public Ellipse(ShapeData shapeData) throws Exception {
         super(shapeData);
     }
 
-    public Ellipse() {
+    public Ellipse() throws Exception {
         super(new ShapeData());
         createShape(0, 0, 0, 0);
     }
 
-    public Ellipse(float x, float y, float w, float h) {
+    public Ellipse(float x, float y, float w, float h) throws Exception {
         super(new ShapeData());
         createShape(x, y, w, h);
     }

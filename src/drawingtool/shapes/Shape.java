@@ -21,10 +21,7 @@ public abstract class Shape implements java.io.Serializable {
     private Color bgColor = Color.yellow;
     private ShapeData shapeData;
 
-//    protected Shape() {
-//        this(new ShapeData());
-//    }
-    public Shape(ShapeData shapeData) {
+    public Shape(ShapeData shapeData) throws Exception {
         this.shapeData = shapeData;
         this.loadShapeData(shapeData);
     }
@@ -107,7 +104,7 @@ public abstract class Shape implements java.io.Serializable {
         return shapeData;
     }
 
-    protected void loadShapeData(ShapeData shapeData) {
+    protected void loadShapeData(ShapeData shapeData) throws Exception{
         this.createShape(0, 0, 0, 0);
         this.setX(shapeData.getFloat(ParserConstants.X, 0));
         this.setY(shapeData.getFloat(ParserConstants.Y, 0));

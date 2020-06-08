@@ -10,28 +10,27 @@ import java.awt.geom.GeneralPath;
  *
  * @author Joao
  */
-public class Arrow  extends Shape {
+public class Arrow extends Shape {
 
     private GeneralPath shape;
     private float angle;
     private boolean resizable = true;
 
-    public Arrow(ShapeData shapeData) {
+    public Arrow(ShapeData shapeData) throws Exception {
         super(shapeData);
     }
 
-    
-    public Arrow() {
+    public Arrow() throws Exception {
         super(new ShapeData());
         createShape();
     }
 
-    public Arrow(float x, float y, float w, float h) {
+    public Arrow(float x, float y, float w, float h) throws Exception {
         super(new ShapeData());
         createShape(x, y, w, h);
     }
 
-    public Arrow(float x, float y, float w, float h, float angle) {
+    public Arrow(float x, float y, float w, float h, float angle) throws Exception {
         this(x, y, w, h);
         setAngle(angle);
     }

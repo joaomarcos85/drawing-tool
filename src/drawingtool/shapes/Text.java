@@ -27,15 +27,15 @@ public class Text extends Shape {
     private int fontStyle;
     private Font font = null;
 
-    public Text(ShapeData shapeData) {
+    public Text(ShapeData shapeData) throws Exception {
         super(shapeData);
     }
 
-    public Text() {
+    public Text() throws Exception {
         super(new ShapeData());
     }
 
-    public Text(float x, float y, float w, float h) {
+    public Text(float x, float y, float w, float h) throws Exception {
         super(new ShapeData());
         this.x = x;
         this.y = y;
@@ -156,7 +156,7 @@ public class Text extends Shape {
     }
 
     @Override
-    protected void loadShapeData(ShapeData shapeData) {
+    protected void loadShapeData(ShapeData shapeData) throws Exception {
         super.loadShapeData(shapeData);
         this.setText(shapeData.getString(ParserConstants.TEXT, "Example"));
         this.setFontName(shapeData.getString(ParserConstants.FONT_NAME, "Arial"));
