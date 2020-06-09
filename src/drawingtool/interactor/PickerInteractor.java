@@ -9,6 +9,7 @@ import drawingtool.selector.RelativeResizeCursor;
 import drawingtool.selector.Selector;
 import drawingtool.shapes.Shape;
 import drawingtool.util.Arrays;
+import java.util.ArrayList;
 
 /**
  *
@@ -34,15 +35,16 @@ public class PickerInteractor extends Interactor {
         }
 
         Selector newSelector = null;
-        for (Shape shape : canvas.getShapes()) {
-            if (shape.contains(msPt)) {
-                shape.setSelected(true);
+        ArrayList<Shape> shapes = canvas.getShapes();
+        for (int i = shapes.size() - 1; i >= 0; i--) {
+            if (shapes.get(i).contains(msPt)) {
+                shapes.get(i).setSelected(true);
                 //Create a new selector for selected shape  
-                newSelector = new Selector(shape, canvas);
+                newSelector = new Selector(shapes.get(i), canvas);
                 int cursorType = newSelector.getCursor(msPt);
                 canvas.setCursor(Cursor.getPredefinedCursor(cursorType));
                 //Execute the shape selection listener 
-                executeSelectListener(shape);
+                executeSelectListener(shapes.get(i));
                 break;
             }
         }
