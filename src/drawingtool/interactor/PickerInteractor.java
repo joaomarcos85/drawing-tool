@@ -37,6 +37,7 @@ public class PickerInteractor extends Interactor {
         Selector newSelector = null;
         ArrayList<Shape> shapes = canvas.getShapes();
         for (int i = shapes.size() - 1; i >= 0; i--) {
+            //Checks if the mouse point is inside the shape
             if (shapes.get(i).contains(msPt)) {
                 shapes.get(i).setSelected(true);
                 //Create a new selector for selected shape  

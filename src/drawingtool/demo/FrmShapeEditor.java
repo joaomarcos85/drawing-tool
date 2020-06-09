@@ -15,6 +15,12 @@ import drawingtool.shapes.Image;
 import drawingtool.shapes.Rectangle;
 import drawingtool.shapes.Shape;
 import drawingtool.shapes.Text;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +30,10 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -32,7 +41,8 @@ import javax.swing.JOptionPane;
  */
 public class FrmShapeEditor extends javax.swing.JFrame {
 
-    Canvas canvas = new Canvas();
+    private Canvas canvas = new Canvas();
+    private PopupMenuShapeOption popupMenuShapeOption = new PopupMenuShapeOption();
 
     public FrmShapeEditor() {
         initComponents();
@@ -46,6 +56,9 @@ public class FrmShapeEditor extends javax.swing.JFrame {
 
             }
         });
+
+        //Load the shape options
+        loadShapeOptions();
     }
 
     @SuppressWarnings("unchecked")
@@ -53,32 +66,20 @@ public class FrmShapeEditor extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlDrawer = new javax.swing.JPanel();
-        btnAddRectangle = new javax.swing.JButton();
         spnRotationAngle = new javax.swing.JSpinner();
         btnZoomIn = new javax.swing.JButton();
         btnZoomOut = new javax.swing.JButton();
         lblZoom = new javax.swing.JLabel();
-        btnAddEllipse = new javax.swing.JButton();
-        btnAddArrow = new javax.swing.JButton();
         lblRotationAngle = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         btnLoad = new javax.swing.JButton();
-        btnAddText = new javax.swing.JButton();
-        btnAddImage = new javax.swing.JButton();
+        btnAddShape = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Canvas Editor Demo");
 
         pnlDrawer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlDrawer.setLayout(new java.awt.BorderLayout());
-
-        btnAddRectangle.setText("Add Rectangle");
-        btnAddRectangle.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnAddRectangle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddRectangleActionPerformed(evt);
-            }
-        });
 
         spnRotationAngle.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(360.0f), Float.valueOf(1.0f)));
 
@@ -98,22 +99,6 @@ public class FrmShapeEditor extends javax.swing.JFrame {
 
         lblZoom.setText("Zoom: 1.0");
 
-        btnAddEllipse.setText("Add Ellipse");
-        btnAddEllipse.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnAddEllipse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddEllipseActionPerformed(evt);
-            }
-        });
-
-        btnAddArrow.setText("Add Arrow");
-        btnAddArrow.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnAddArrow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddArrowActionPerformed(evt);
-            }
-        });
-
         lblRotationAngle.setText("Rotation angle");
 
         btnSave.setText("Save");
@@ -132,17 +117,11 @@ public class FrmShapeEditor extends javax.swing.JFrame {
             }
         });
 
-        btnAddText.setText("Add Text");
-        btnAddText.addActionListener(new java.awt.event.ActionListener() {
+        btnAddShape.setText("Add Shape");
+        btnAddShape.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnAddShape.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddTextActionPerformed(evt);
-            }
-        });
-
-        btnAddImage.setText("Add Image");
-        btnAddImage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddImageActionPerformed(evt);
+                btnAddShapeActionPerformed(evt);
             }
         });
 
@@ -150,21 +129,14 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlDrawer, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addComponent(btnSave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLoad)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddRectangle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddEllipse)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddArrow)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddImage)
+                .addComponent(btnAddShape)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRotationAngle)
                 .addGap(9, 9, 9)
@@ -173,7 +145,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 .addComponent(btnZoomIn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnZoomOut)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 80, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -181,37 +153,23 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddRectangle)
                     .addComponent(spnRotationAngle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnZoomIn)
                     .addComponent(btnZoomOut)
-                    .addComponent(btnAddEllipse)
-                    .addComponent(btnAddArrow)
                     .addComponent(lblRotationAngle)
                     .addComponent(btnSave)
                     .addComponent(btnLoad)
-                    .addComponent(btnAddText)
-                    .addComponent(btnAddImage))
+                    .addComponent(btnAddShape))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(lblZoom))
+                .addComponent(lblZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRectangleActionPerformed
-        try {
-            Rectangle rectangle = new Rectangle(20, 150, 200, 150);
-            rectangle.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-            canvas.addShape(rectangle);
-        } catch (Exception ex) {
-            Log.LOGGER.log(Level.SEVERE, "Error adding rectangle", ex);
-        }
-    }//GEN-LAST:event_btnAddRectangleActionPerformed
 
     private void btnZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomInActionPerformed
         canvas.setZoom(canvas.getZoom() + 0.1f);
@@ -222,26 +180,6 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         canvas.setZoom(canvas.getZoom() - 0.1f);
         lblZoom.setText("Zoom: " + canvas.getZoom());
     }//GEN-LAST:event_btnZoomOutActionPerformed
-
-    private void btnAddEllipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEllipseActionPerformed
-        try {
-            Ellipse ellipse = new Ellipse(20, 150, 200, 150);
-            ellipse.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-            canvas.addShape(ellipse);
-        } catch (Exception ex) {
-            Log.LOGGER.log(Level.SEVERE, "Error adding ellipse", ex);
-        }
-    }//GEN-LAST:event_btnAddEllipseActionPerformed
-
-    private void btnAddArrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddArrowActionPerformed
-        try {
-            Arrow arrow = new Arrow(20, 150, 200, 150);
-            arrow.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-            canvas.addShape(arrow);
-        } catch (Exception ex) {
-            Log.LOGGER.log(Level.SEVERE, "Error adding arrow", ex);
-        }
-    }//GEN-LAST:event_btnAddArrowActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         FileWriter fileWriter = null;
@@ -282,39 +220,122 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLoadActionPerformed
 
-    private void btnAddTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTextActionPerformed
-        try {
-            Text text = new Text(20, 150, 200, 150);
+    private void btnAddShapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShapeActionPerformed
+        popupMenuShapeOption.show(btnAddShape, 0, btnAddShape.getHeight());
+    }//GEN-LAST:event_btnAddShapeActionPerformed
 
-            text.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-
-            Object value = JOptionPane.showInputDialog(this, "Enter the text");
-            if (value != null) {
-                text.setText(String.valueOf(value));
+    private void loadShapeOptions() {
+        popupMenuShapeOption.addShapeOption("Rectangle", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    Rectangle rectangle = new Rectangle(20, 150, 200, 150);
+                    rectangle.setAngle(Float.valueOf(
+                            String.valueOf(spnRotationAngle.getValue())));
+                    canvas.addShape(rectangle);
+                } catch (Exception ex) {
+                    Log.LOGGER.log(Level.SEVERE, "Error adding rectangle", ex);
+                }
             }
-            canvas.addShape(text);
-        } catch (Exception ex) {
-            Log.LOGGER.log(Level.SEVERE, "Error adding text", ex);
-        }
-    }//GEN-LAST:event_btnAddTextActionPerformed
+        });
 
-    private void btnAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImageActionPerformed
-        try {
-            Image image = new Image(new File("test/loremipsum.png"), 20, 150, 200, 150);
-            image.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-            canvas.addShape(image);
-        } catch (Exception ex) {
-            Log.LOGGER.log(Level.SEVERE, "Error adding image", ex);
+        popupMenuShapeOption.addShapeOption("Ellipse", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    Ellipse ellipse = new Ellipse(20, 150, 200, 150);
+                    ellipse.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+                    canvas.addShape(ellipse);
+                } catch (Exception ex) {
+                    Log.LOGGER.log(Level.SEVERE, "Error adding ellipse", ex);
+                }
+            }
+        });
+
+        popupMenuShapeOption.addShapeOption("Arrow", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    Arrow arrow = new Arrow(20, 150, 200, 150);
+                    arrow.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+                    canvas.addShape(arrow);
+                } catch (Exception ex) {
+                    Log.LOGGER.log(Level.SEVERE, "Error adding arrow", ex);
+                }
+            }
+        });
+
+        popupMenuShapeOption.addShapeOption("Text", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    Text text = new Text(20, 150, 200, 150);
+
+                    text.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+
+                    Object value = JOptionPane.showInputDialog(this, "Enter the text");
+                    if (value != null) {
+                        text.setText(String.valueOf(value));
+                    }
+                    canvas.addShape(text);
+                } catch (Exception ex) {
+                    Log.LOGGER.log(Level.SEVERE, "Error adding text", ex);
+                }
+            }
+        });
+
+        popupMenuShapeOption.addShapeOption("Image", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    Image image = new Image(new File("test/loremipsum.png"), 20, 150, 200, 150);
+                    image.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
+                    canvas.addShape(image);
+                } catch (Exception ex) {
+                    Log.LOGGER.log(Level.SEVERE, "Error adding image", ex);
+                }
+            }
+        });
+    }
+
+    class PopupMenuShapeOption extends JPopupMenu {
+
+        private JPanel pnlShapeOptions;
+        private int colNumbers = 3;
+        private int horizontalGap = 5;
+        private int verticalGap = 5;
+        private int popupWidth = 260;
+        private int btnOptionWidth = 80;
+        private int btnOptionHeight = 25;
+
+        public PopupMenuShapeOption() {
+            this.pnlShapeOptions = new JPanel();
+            this.pnlShapeOptions.setLayout(new FlowLayout(
+                    FlowLayout.LEFT, this.horizontalGap, this.verticalGap));
+            this.insert(this.pnlShapeOptions, 0);
         }
-    }//GEN-LAST:event_btnAddImageActionPerformed
+
+        public void addShapeOption(String name, ActionListener action) {
+            JButton btnShapeOption = new JButton(name);
+            btnShapeOption.setPreferredSize(
+                    new Dimension(btnOptionWidth, btnOptionHeight));
+            btnShapeOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            btnShapeOption.addActionListener(action);
+            btnShapeOption.setMargin(new Insets(2, 2, 2, 2));
+            this.pnlShapeOptions.add(btnShapeOption);
+
+            //Calculates the new row number
+            int rowNumbers = (int) ((float) this.pnlShapeOptions.getComponentCount()
+                    / (float) colNumbers + 0.9);
+            //Calculates the new Popup size
+            this.pnlShapeOptions.setPreferredSize(new Dimension(popupWidth,
+                    (rowNumbers * (btnOptionHeight + this.verticalGap)) + this.verticalGap));
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddArrow;
-    private javax.swing.JButton btnAddEllipse;
-    private javax.swing.JButton btnAddImage;
-    private javax.swing.JButton btnAddRectangle;
-    private javax.swing.JButton btnAddText;
+    private javax.swing.JButton btnAddShape;
     private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnZoomIn;
