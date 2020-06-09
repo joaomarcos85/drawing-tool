@@ -273,7 +273,8 @@ public class FrmShapeEditor extends javax.swing.JFrame {
 
                     text.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
 
-                    Object value = JOptionPane.showInputDialog(this, "Enter the text");
+                    Object value = JOptionPane.showInputDialog(FrmShapeEditor.this,
+                            "Enter the text", "Insert Text", JOptionPane.QUESTION_MESSAGE);
                     if (value != null) {
                         text.setText(String.valueOf(value));
                     }
