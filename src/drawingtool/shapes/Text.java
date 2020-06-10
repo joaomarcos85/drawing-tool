@@ -152,6 +152,8 @@ public class Text extends Shape {
         ShapeData data = super.getShapeData();
         data.put(ParserConstants.TEXT, this.getText());
         data.put(ParserConstants.FONT_NAME, this.getFontName());
+        data.put(ParserConstants.FONT_STYLE, this.getFontStyle());
+
         return data;
     }
 
@@ -160,6 +162,7 @@ public class Text extends Shape {
         super.loadShapeData(shapeData);
         this.setText(shapeData.getString(ParserConstants.TEXT, "Example"));
         this.setFontName(shapeData.getString(ParserConstants.FONT_NAME, "Arial"));
+        this.setFontStyle(shapeData.getInt(ParserConstants.FONT_STYLE, Font.PLAIN));
     }
 
     @Override

@@ -15,7 +15,10 @@ public class ParserConstants {
     public final static String ANGLE = "angle";
     public final static String TEXT = "text";
     public final static String FONT_NAME = "font-name";
+    public final static String FONT_STYLE = "font-style";
     public final static String IMAGE_DATA = "img-data";
+    public final static String BACKGROUND_COLOR = "bg-color";
+    public final static String FOREGROUND_COLOR = "fg-color";
 
     //Types of Shapes
     public final static String TYPE_ARROW = "arrow";
