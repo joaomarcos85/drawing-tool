@@ -26,6 +26,9 @@ public class ColorUtil {
     }
 
     public static String colorToStringRgb(Color color) {
+        if(color == null){
+            return null;
+        }
         return "rgb(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ")";
     }
 
