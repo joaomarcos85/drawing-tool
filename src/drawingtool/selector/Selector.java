@@ -26,7 +26,7 @@ public class Selector {
     private Resizer southEastResizerShape;
     private Resizer southWestResizerShape;
     private drawingtool.shapes.Shape shapeSource;
-    private ArrayList<Resizer> vResizers = new ArrayList();
+    private final ArrayList<Resizer> vResizers = new ArrayList();
     private java.awt.Shape seletorShape;
     private boolean visible = true;
     private boolean moving = false;
@@ -87,14 +87,8 @@ public class Selector {
                 getShapeSource().getY() * canvas.getZoom(),
                 getShapeSource().getWidth() * canvas.getZoom(),
                 getShapeSource().getHeight() * canvas.getZoom());
-//        AffineTransform vAffineTransform = new AffineTransform();
-//        vAffineTransform.rotate(Math.toRadians(getShapeSource().getAngle()),
-//                (getShapeSource().getX() * canvas.getZoom())
-//                + ((getShapeSource().getWidth() * canvas.getZoom()) / 2),
-//                (getShapeSource().getY() * canvas.getZoom())
-//                + ((getShapeSource().getHeight() * canvas.getZoom()) / 2));
 
-        this.seletorShape =rectangle2D; 
+        this.seletorShape = rectangle2D;
     }
 
     public Shape getSeletorShape() {
@@ -122,16 +116,16 @@ public class Selector {
     }
 
     public int getCursor(Point oMousePoint) {
-        //Verifica se o objeto permite redimensionamento
+        //Checks if the selected shape is resizable
         if (shapeSource.isResizable()) {
-            //Verifica se está em cima de um dos pontos e redimensionamento
+            //Checks if the cursor is over one of the resize points
             for (Resizer resizer : getResizers()) {
                 if (resizer.contains(oMousePoint)) {
                     return resizer.getCursor();
                 }
             }
         }
-        //Verifica se o ponto está dentro da forma
+        //Checks if the cursor is inside the shape
         if (getShapeSource().contains(oMousePoint)) {
             return Cursor.MOVE_CURSOR;
         }
@@ -139,8 +133,9 @@ public class Selector {
         return -1;
     }
 
-    public Resizer getResizerForCursor(int oCursorType) {
-        //Procura um Resizer para o typo de cursor informado
+    public Resizer getResizerForRotatedCursor(int oCursorType) {
+        /*Look for a resizer for the cursor type 
+        considering the rotation of the shape*/
         for (Resizer vResizer : getResizers()) {
             if (vResizer.getCursor() == oCursorType) {
                 return vResizer;
@@ -151,7 +146,8 @@ public class Selector {
     }
 
     public Resizer getResizerForOriginalCursor(int oCursorType) {
-        //Procura um Resizer para o typo de cursor informado
+        /*Search for a resizer for the type of cursor
+        considering the cursor that the resizer was created*/
         for (Resizer resizer : getResizers()) {
             if (resizer.getOriginalCursor() == oCursorType) {
                 return resizer;
@@ -178,26 +174,19 @@ public class Selector {
 
         g2.setColor(new Color(147, 147, 147));
         g2.setStroke(new BasicStroke(1.0f));
-        
+
+        float cx = (getShapeSource().getX() * canvas.getZoom())
+                + ((getShapeSource().getWidth() * canvas.getZoom()) / 2);
+        float cy = (getShapeSource().getY() * canvas.getZoom())
+                + ((getShapeSource().getHeight() * canvas.getZoom()) / 2);
         AffineTransform vAffineTransform = new AffineTransform();
         vAffineTransform.rotate(Math.toRadians(getShapeSource().getAngle()),
-                (getShapeSource().getX() * canvas.getZoom())
-                + ((getShapeSource().getWidth() * canvas.getZoom()) / 2),
-                (getShapeSource().getY() * canvas.getZoom())
-                + ((getShapeSource().getHeight() * canvas.getZoom()) / 2));
-      
+                cx, cy);
+
         g2.draw(vAffineTransform.createTransformedShape(getSeletorShape()));
 
         //Draws the resizers points
         for (Resizer resizer : getResizers()) {
-//            AffineTransform affineTransform = new AffineTransform();
-//            float newX = (float) (resizer.getShape().getBounds().getX() * canvas.getZoom());
-//            float newY = (float) (resizer.getShape().getBounds().getY() * canvas.getZoom());
-//            affineTransform.translate(newX - resizer.getShape().getBounds().getX(),
-//                    newY - resizer.getShape().getBounds().getY());
-//
-//            Shape shape = affineTransform.createTransformedShape(resizer.getShape());
-//            System.out.println("usou: " + resizer.getShape().getBounds().height);
             g2.setColor(new Color(240, 240, 240));
             g2.fill(resizer.getShape());
             g2.setColor(new Color(255, 0, 0));
