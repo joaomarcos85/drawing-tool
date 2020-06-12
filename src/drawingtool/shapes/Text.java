@@ -168,7 +168,8 @@ public class Text extends Shape {
     @Override
     public void paint(Graphics2D g2) {
         g2 = (Graphics2D) g2.create();
-        g2.setColor(Color.red);
+        //Paint the common attributes
+        this.paintCommonAttributes(g2);
 
         float centerX = 0;
         float centerY = 0;

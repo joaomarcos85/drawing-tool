@@ -19,6 +19,7 @@ public abstract class Shape implements java.io.Serializable {
     public float Xaxis = 0;
     public float Yaxis = 0;
     private Color bgColor = Color.yellow;
+    private Color fgColor = Color.yellow;
     private ShapeData shapeData;
 
     public Shape(ShapeData shapeData) throws Exception {
@@ -53,6 +54,10 @@ public abstract class Shape implements java.io.Serializable {
     public abstract void paint(Graphics2D g2);
 
     public abstract String getTypeName();
+
+    public void paintCommonAttributes(Graphics2D g2) {
+        g2.setColor(this.getBackgroundColor());
+    }
 
     protected abstract void createShape(float x, float y, float width, float height);
 
@@ -94,6 +99,14 @@ public abstract class Shape implements java.io.Serializable {
         this.bgColor = bgColor;
     }
 
+    public Color getForegroundColor() {
+        return fgColor;
+    }
+
+    public void setForegroundColor(Color fgColor) {
+        this.fgColor = fgColor;
+    }
+
     public ShapeData getShapeData() throws Exception {
         this.shapeData.put(ParserConstants.X, this.getX());
         this.shapeData.put(ParserConstants.Y, this.getY());
@@ -101,16 +114,22 @@ public abstract class Shape implements java.io.Serializable {
         this.shapeData.put(ParserConstants.HEIGHT, this.getHeight());
         this.shapeData.put(ParserConstants.ANGLE, this.getAngle());
         this.shapeData.put(ParserConstants.TYPE_NAME, this.getTypeName());
+        this.shapeData.put(ParserConstants.BACKGROUND_COLOR, this.getBackgroundColor());
+        this.shapeData.put(ParserConstants.FOREGROUND_COLOR, this.getForegroundColor());
         return shapeData;
     }
 
-    protected void loadShapeData(ShapeData shapeData) throws Exception{
+    protected void loadShapeData(ShapeData shapeData) throws Exception {
         this.createShape(0, 0, 0, 0);
         this.setX(shapeData.getFloat(ParserConstants.X, 0));
         this.setY(shapeData.getFloat(ParserConstants.Y, 0));
         this.setWidth(shapeData.getFloat(ParserConstants.WIDTH, 0));
         this.setHeight(shapeData.getFloat(ParserConstants.HEIGHT, 0));
         this.setAngle(shapeData.getFloat(ParserConstants.ANGLE, 0));
+        this.setBackgroundColor(shapeData.
+                getColorFromRgb(ParserConstants.BACKGROUND_COLOR, Color.black));
+        this.setForegroundColor(shapeData.
+                getColorFromRgb(ParserConstants.FOREGROUND_COLOR, Color.black));
     }
 
 }
