@@ -13,13 +13,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageInputStream;
-import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 /**
  *
@@ -198,19 +195,9 @@ public class Image extends Shape {
         }
 
         g2 = (Graphics2D) g2.create();
+        //Paint the common attributes
+        this.paintCommonAttributes(g2);
 
-        float centerX = 0;
-        float centerY = 0;
-
-        if (isResizing()) {
-            centerX = Xaxis;
-            centerY = Yaxis;
-        } else {
-            centerX = getX() + (getWidth() / 2);
-            centerY = getY() + (getHeight() / 2);
-        }
-        //Rotate the image
-        g2.rotate(Math.toRadians(getAngle()), centerX, centerY);
         //Draw the image
         g2.drawImage(img, (int) this.getX(), (int) this.getY(),
                 (int) this.getWidth(), (int) this.getHeight(), null);

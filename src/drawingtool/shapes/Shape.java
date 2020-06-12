@@ -57,6 +57,18 @@ public abstract class Shape implements java.io.Serializable {
 
     public void paintCommonAttributes(Graphics2D g2) {
         g2.setColor(this.getBackgroundColor());
+
+        float centerX = 0;
+        float centerY = 0;
+        if (isResizing()) {
+            centerX = Xaxis;
+            centerY = Yaxis;
+        } else {
+            centerX = getX() + (getWidth() / 2);
+            centerY = getY() + (getHeight() / 2);
+        }
+
+        g2.rotate(Math.toRadians(getAngle()), centerX, centerY);
     }
 
     protected abstract void createShape(float x, float y, float width, float height);

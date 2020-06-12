@@ -171,21 +171,6 @@ public class Text extends Shape {
         //Paint the common attributes
         this.paintCommonAttributes(g2);
 
-        float centerX = 0;
-        float centerY = 0;
-
-        if (isResizing()) {
-            centerX = Xaxis;
-            centerY = Yaxis;
-        } else {
-            centerX = getX() + (getWidth() / 2);
-            centerY = getY() + (getHeight() / 2);
-        }
-
-        g2.rotate(Math.toRadians(getAngle()),
-                centerX,
-                centerY);
-
         this.createShape(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
         Font font = this.getFont();
