@@ -272,12 +272,14 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     Text text = new Text(20, 150, 200, 150);
 
                     text.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-
+                    //Requests the text
                     Object value = JOptionPane.showInputDialog(FrmShapeEditor.this,
                             "Enter the text", "Insert Text", JOptionPane.QUESTION_MESSAGE);
-                    if (value != null) {
-                        text.setText(String.valueOf(value));
+                    //Validate the text
+                    if (value == null || String.valueOf(value).isBlank()) {
+                        return;
                     }
+                    text.setText(String.valueOf(value));
                     canvas.addShape(text);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding text", ex);
