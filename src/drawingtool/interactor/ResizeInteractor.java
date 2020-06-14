@@ -42,8 +42,8 @@ public class ResizeInteractor extends Interactor {
 
         final int vCursorType = canvas.getCursor().getType();
 
-        drawingtool.selector.Resizer resizer = canvas.getShapeSelector().
-                getResizerForCursor(vCursorType);
+        drawingtool.selector.Resizer resizer
+                = canvas.getShapeSelector().getResizerForRotatedCursor(vCursorType);
         if (resizer != null) {
             try {
                 if (!canvas.getShapeSelector().getShapeSource().isResizing()) {
