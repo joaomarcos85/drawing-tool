@@ -189,12 +189,12 @@ public class Selector {
                 + ((getShapeSource().getWidth() * this.canvas.getZoom()) / 2);
         float cy = (getShapeSource().getY() * this.canvas.getZoom())
                 + ((getShapeSource().getHeight() * this.canvas.getZoom()) / 2);
-        AffineTransform vAffineTransform = new AffineTransform();
-        vAffineTransform.rotate(Math.toRadians(getShapeSource().getAngle()),
+        AffineTransform affineTransform = new AffineTransform();
+        affineTransform.rotate(Math.toRadians(getShapeSource().getAngle()),
                 cx, cy);
 
         //Draws the bounds of selector
-        g2.draw(vAffineTransform.createTransformedShape(this.getSeletorShape()));
+        g2.draw(affineTransform.createTransformedShape(this.getSeletorShape()));
         //Draws the shape rotator
         g2.fill(this.getRotator().getShape());
 
