@@ -27,7 +27,7 @@ public class Selector {
     private Resizer southWestResizerShape;
     private Rotator rotator;
     private drawingtool.shapes.Shape shapeSource;
-    private final ArrayList<Resizer> vResizers = new ArrayList();
+    private final ArrayList<Resizer> resizers = new ArrayList();
     private java.awt.Shape seletorShape;
     private boolean visible = true;
     private boolean moving = false;
@@ -36,20 +36,18 @@ public class Selector {
     public Selector(drawingtool.shapes.Shape shape, Canvas canvas) {
         this.shapeSource = shape;
         this.canvas = canvas;
-
-        loadResizers();
-        this.rotator = new Rotator(this);
+        this.loadSelector();
     }
 
     public void reloadSelector() {
-        loadResizers();
+        loadSelector();
     }
 
     public void updateSelectorZoom() {
         reloadSelector();
     }
 
-    public void loadResizers() {
+    public void loadSelector() {
         createSelectorShape();
         northResizerShape = new NorthResizer(this);
         southResizerShape = new SouthResizer(this);
@@ -59,28 +57,29 @@ public class Selector {
         northWestResizerShape = new NorthWestResizer(this);
         southEastResizerShape = new SouthEastResizer(this);
         southWestResizerShape = new SouthWestResizer(this);
+        this.rotator = new Rotator(this);
 
-        vResizers.clear();
-        vResizers.add(northResizerShape);
-        vResizers.add(southResizerShape);
-        vResizers.add(eastResizerShape);
-        vResizers.add(westResizerShape);
-        vResizers.add(northEastResizerShape);
-        vResizers.add(northWestResizerShape);
-        vResizers.add(southEastResizerShape);
-        vResizers.add(southWestResizerShape);
+        resizers.clear();
+        resizers.add(northResizerShape);
+        resizers.add(southResizerShape);
+        resizers.add(eastResizerShape);
+        resizers.add(westResizerShape);
+        resizers.add(northEastResizerShape);
+        resizers.add(northWestResizerShape);
+        resizers.add(southEastResizerShape);
+        resizers.add(southWestResizerShape);
     }
 
     public ArrayList<Shape> getPointsShapes() {
-        ArrayList<Shape> vShape = new ArrayList();
+        ArrayList<Shape> shape = new ArrayList();
         for (Resizer vResizer : getResizers()) {
-            vShape.add(vResizer.getShape());
+            shape.add(vResizer.getShape());
         }
-        return vShape;
+        return shape;
     }
 
     public ArrayList<Resizer> getResizers() {
-        return vResizers;
+        return resizers;
     }
 
     private void createSelectorShape() {
@@ -143,9 +142,9 @@ public class Selector {
     public Resizer getResizerForRotatedCursor(int oCursorType) {
         /*Look for a resizer for the cursor type 
         considering the rotation of the shape*/
-        for (Resizer vResizer : this.getResizers()) {
-            if (vResizer.getCursor() == oCursorType) {
-                return vResizer;
+        for (Resizer resizer : this.getResizers()) {
+            if (resizer.getCursor() == oCursorType) {
+                return resizer;
             }
         }
 
@@ -155,7 +154,7 @@ public class Selector {
     public Resizer getResizerForOriginalCursor(int oCursorType) {
         /*Search for a resizer for the type of cursor
         considering the cursor that the resizer was created*/
-        for (Resizer resizer : getResizers()) {
+        for (Resizer resizer : this.getResizers()) {
             if (resizer.getOriginalCursor() == oCursorType) {
                 return resizer;
             }
@@ -165,11 +164,11 @@ public class Selector {
     }
 
     public Canvas getCanvas() {
-        return canvas;
+        return this.canvas;
     }
 
     public Rotator getRotator() {
-        return rotator;
+        return this.rotator;
     }
 
     public void paint(Graphics2D g2) {
@@ -186,10 +185,10 @@ public class Selector {
         g2.setColor(new Color(147, 147, 147));
         g2.setStroke(new BasicStroke(1.0f));
 
-        float cx = (getShapeSource().getX() * canvas.getZoom())
-                + ((getShapeSource().getWidth() * canvas.getZoom()) / 2);
-        float cy = (getShapeSource().getY() * canvas.getZoom())
-                + ((getShapeSource().getHeight() * canvas.getZoom()) / 2);
+        float cx = (getShapeSource().getX() * this.canvas.getZoom())
+                + ((getShapeSource().getWidth() * this.canvas.getZoom()) / 2);
+        float cy = (getShapeSource().getY() * this.canvas.getZoom())
+                + ((getShapeSource().getHeight() * this.canvas.getZoom()) / 2);
         AffineTransform vAffineTransform = new AffineTransform();
         vAffineTransform.rotate(Math.toRadians(getShapeSource().getAngle()),
                 cx, cy);
