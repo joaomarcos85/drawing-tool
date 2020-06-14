@@ -28,6 +28,7 @@ public class CursorInteractor extends Interactor {
                 int cursor = canvas.getShapeSelector().getCursor(msPt);
                 if (cursor != -1) {
                     cursorType = cursor;
+                    break;
                 }
             }
         }

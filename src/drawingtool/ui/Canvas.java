@@ -17,6 +17,7 @@ import drawingtool.interactor.Interactor;
 import drawingtool.interactor.MoveInteractor;
 import drawingtool.interactor.PickerInteractor;
 import drawingtool.interactor.ResizeInteractor;
+import drawingtool.interactor.RotateInteractor;
 import drawingtool.io.AbstractDocument;
 import drawingtool.listener.ShapeListener;
 import drawingtool.io.Document;
@@ -45,6 +46,7 @@ public class Canvas extends javax.swing.JPanel {
         this.addInteractor(new PickerInteractor(this));
         this.addInteractor(new ResizeInteractor(this));
         this.addInteractor(new MoveInteractor(this));
+        this.addInteractor(new RotateInteractor(this));
     }
 
     @Override

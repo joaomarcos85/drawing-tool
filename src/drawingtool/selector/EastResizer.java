@@ -46,7 +46,7 @@ public class EastResizer extends Resizer {
     }
 
     @Override
-    public void resize(Point msPt) throws NoninvertibleTransformException{
+    public void resize(Point msPt) throws NoninvertibleTransformException {
         super.resize(msPt);
 
         if (selector.getShapeSource() == null) {

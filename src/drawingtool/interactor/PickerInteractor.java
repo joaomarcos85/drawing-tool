@@ -28,9 +28,10 @@ public class PickerInteractor extends Interactor {
             return;
         }
 
-        //Checks if the current cursor is a resize cursor
+        //Checks if the current cursor is a resize cursor or a rotate cursor
         int cursor = canvas.getCursor().getType();
-        if (Arrays.contains(RelativeResizeCursor.orderedCursors, cursor)) {
+        if (Arrays.contains(RelativeResizeCursor.orderedCursors, cursor) ||
+                cursor == Cursor.HAND_CURSOR) {
             return;
         }
 

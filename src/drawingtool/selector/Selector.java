@@ -25,6 +25,7 @@ public class Selector {
     private Resizer northWestResizerShape;
     private Resizer southEastResizerShape;
     private Resizer southWestResizerShape;
+    private Rotator rotator;
     private drawingtool.shapes.Shape shapeSource;
     private final ArrayList<Resizer> vResizers = new ArrayList();
     private java.awt.Shape seletorShape;
@@ -37,6 +38,7 @@ public class Selector {
         this.canvas = canvas;
 
         loadResizers();
+        this.rotator = new Rotator(this);
     }
 
     public void reloadSelector() {
@@ -125,9 +127,14 @@ public class Selector {
                 }
             }
         }
-        //Checks if the cursor is inside the shape
-        if (getShapeSource().contains(oMousePoint)) {
+        //Checks if the cursor is inside the selected shape
+        if (this.getShapeSource().contains(oMousePoint)) {
             return Cursor.MOVE_CURSOR;
+        }
+
+        //Checks if the cursor is inside the rotator
+        if (this.getRotator().contains(oMousePoint)) {
+            return Cursor.HAND_CURSOR;
         }
 
         return -1;
@@ -136,7 +143,7 @@ public class Selector {
     public Resizer getResizerForRotatedCursor(int oCursorType) {
         /*Look for a resizer for the cursor type 
         considering the rotation of the shape*/
-        for (Resizer vResizer : getResizers()) {
+        for (Resizer vResizer : this.getResizers()) {
             if (vResizer.getCursor() == oCursorType) {
                 return vResizer;
             }
@@ -161,6 +168,10 @@ public class Selector {
         return canvas;
     }
 
+    public Rotator getRotator() {
+        return rotator;
+    }
+
     public void paint(Graphics2D g2) {
         if (!isVisible()) {
             return;
@@ -183,7 +194,10 @@ public class Selector {
         vAffineTransform.rotate(Math.toRadians(getShapeSource().getAngle()),
                 cx, cy);
 
-        g2.draw(vAffineTransform.createTransformedShape(getSeletorShape()));
+        //Draws the bounds of selector
+        g2.draw(vAffineTransform.createTransformedShape(this.getSeletorShape()));
+        //Draws the shape rotator
+        g2.fill(this.getRotator().getShape());
 
         //Draws the resizers points
         for (Resizer resizer : getResizers()) {
