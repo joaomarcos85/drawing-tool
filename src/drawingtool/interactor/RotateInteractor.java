@@ -1,5 +1,6 @@
 package drawingtool.interactor;
 
+import drawingtool.selector.Selector;
 import drawingtool.ui.Canvas;
 import java.awt.Cursor;
 import java.awt.Point;
@@ -46,6 +47,19 @@ public class RotateInteractor extends Interactor {
         canvas.getShapeSelector().getShapeSource().setAngle((int) angle);
         //Update the canvas
         canvas.repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent evt) {
+        if (canvas.getShapeSelector() != null
+                && !canvas.getShapeSelector().getShapeSource().isResizing()) {
+            //Create a new selector for selected shape  
+            canvas.setShapeSelector(new Selector(
+                    canvas.getShapeSelector().getShapeSource(), canvas));
+            canvas.getShapeSelector().setVisible(true);
+            //Update the canvas
+            canvas.repaint();
+        }
     }
 
 }
