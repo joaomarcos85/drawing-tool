@@ -40,8 +40,9 @@ public class Canvas extends javax.swing.JPanel {
     private Document document = new AbstractDocument();
 
     public Canvas() {
-        setZoom(zoomFactor);
-        prepareInteractors();
+        this.setFocusable(true);
+        this.setZoom(zoomFactor);
+        this.prepareInteractors();
 
         //Adds the interactors
         this.addInteractor(new CursorInteractor(this));
@@ -86,6 +87,7 @@ public class Canvas extends javax.swing.JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
+                Canvas.this.requestFocus();
                 //Execute the interactors
                 for (Interactor interactor : interactors) {
                     interactor.mousePressed(evt);
