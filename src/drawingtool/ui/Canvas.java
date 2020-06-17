@@ -23,6 +23,8 @@ import drawingtool.listener.ShapeListener;
 import drawingtool.io.Document;
 import drawingtool.selector.Selector;
 import drawingtool.shapes.Shape;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
@@ -114,6 +116,32 @@ public class Canvas extends javax.swing.JPanel {
                 //Execute the interactors
                 for (Interactor interactor : interactors) {
                     interactor.mouseDragged(evt);
+                }
+            }
+        });
+        
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent evt) {
+                //Execute the interactors
+                for (Interactor interactor : interactors) {
+                    interactor.keyTyped(evt);
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent evt) {
+                //Execute the interactors
+                for (Interactor interactor : interactors) {
+                    interactor.keyPressed(evt);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent evt) {
+                //Execute the interactors
+                for (Interactor interactor : interactors) {
+                    interactor.keyReleased(evt);
                 }
             }
         });
