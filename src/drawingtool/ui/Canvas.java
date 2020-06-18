@@ -1,6 +1,7 @@
 package drawingtool.ui;
 
 import drawingtool.interactor.CursorInteractor;
+import drawingtool.interactor.DeleteInteractor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
@@ -23,6 +24,7 @@ import drawingtool.listener.ShapeListener;
 import drawingtool.io.Document;
 import drawingtool.selector.Selector;
 import drawingtool.shapes.Shape;
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -50,6 +52,7 @@ public class Canvas extends javax.swing.JPanel {
         this.addInteractor(new ResizeInteractor(this));
         this.addInteractor(new MoveInteractor(this));
         this.addInteractor(new RotateInteractor(this));
+        this.addInteractor(new DeleteInteractor(this));
     }
 
     @Override
@@ -155,6 +158,10 @@ public class Canvas extends javax.swing.JPanel {
 
     public void setShapeSelector(Selector shapeSelector) {
         this.shapeSelector = shapeSelector;
+        
+        if( this.shapeSelector == null){
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
     }
 
     private void addInteractor(Interactor interactor) {
