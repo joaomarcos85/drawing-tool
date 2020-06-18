@@ -195,8 +195,8 @@ public class Selector {
 
         //Draws the bounds of selector
         g2.draw(affineTransform.createTransformedShape(this.getSeletorShape()));
-        //Draws the shape rotator
-        g2.fill(this.getRotator().getShape());
+        
+        this.getRotator().paint(g2);
 
         //Draws the resizers points
         for (Resizer resizer : getResizers()) {
