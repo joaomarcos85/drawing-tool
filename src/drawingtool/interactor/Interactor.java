@@ -6,12 +6,15 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import drawingtool.ui.Canvas;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
  * @author Joao
  */
-public abstract class Interactor implements MouseListener, MouseMotionListener, MouseWheelListener {
+public abstract class Interactor implements MouseListener, MouseMotionListener,
+        MouseWheelListener, KeyListener {
 
     Canvas canvas;
 
@@ -50,4 +53,17 @@ public abstract class Interactor implements MouseListener, MouseMotionListener, 
     @Override
     public void mouseWheelMoved(MouseWheelEvent evt) {
     }
+
+    @Override
+    public void keyPressed(KeyEvent evt) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent evt) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent evt) {
+    }
+
 }

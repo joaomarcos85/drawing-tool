@@ -1,6 +1,7 @@
 package drawingtool.ui;
 
 import drawingtool.interactor.CursorInteractor;
+import drawingtool.interactor.DeleteInteractor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
@@ -23,6 +24,9 @@ import drawingtool.listener.ShapeListener;
 import drawingtool.io.Document;
 import drawingtool.selector.Selector;
 import drawingtool.shapes.Shape;
+import java.awt.Cursor;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
@@ -38,8 +42,9 @@ public class Canvas extends javax.swing.JPanel {
     private Document document = new AbstractDocument();
 
     public Canvas() {
-        setZoom(zoomFactor);
-        prepareInteractors();
+        this.setFocusable(true);
+        this.setZoom(zoomFactor);
+        this.prepareInteractors();
 
         //Adds the interactors
         this.addInteractor(new CursorInteractor(this));
@@ -47,6 +52,7 @@ public class Canvas extends javax.swing.JPanel {
         this.addInteractor(new ResizeInteractor(this));
         this.addInteractor(new MoveInteractor(this));
         this.addInteractor(new RotateInteractor(this));
+        this.addInteractor(new DeleteInteractor(this));
     }
 
     @Override
@@ -84,6 +90,7 @@ public class Canvas extends javax.swing.JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
+                Canvas.this.requestFocus();
                 //Execute the interactors
                 for (Interactor interactor : interactors) {
                     interactor.mousePressed(evt);
@@ -117,6 +124,32 @@ public class Canvas extends javax.swing.JPanel {
                 }
             }
         });
+        
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent evt) {
+                //Execute the interactors
+                for (Interactor interactor : interactors) {
+                    interactor.keyTyped(evt);
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent evt) {
+                //Execute the interactors
+                for (Interactor interactor : interactors) {
+                    interactor.keyPressed(evt);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent evt) {
+                //Execute the interactors
+                for (Interactor interactor : interactors) {
+                    interactor.keyReleased(evt);
+                }
+            }
+        });
     }
 
     public Selector getShapeSelector() {
@@ -125,6 +158,10 @@ public class Canvas extends javax.swing.JPanel {
 
     public void setShapeSelector(Selector shapeSelector) {
         this.shapeSelector = shapeSelector;
+        
+        if( this.shapeSelector == null){
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
     }
 
     private void addInteractor(Interactor interactor) {
