@@ -56,7 +56,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
 
             }
         });
-
+        
         //Load the shape options
         loadShapeOptions();
     }
@@ -79,7 +79,12 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         setTitle("Canvas Editor Demo");
 
         pnlDrawer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlDrawer.setLayout(new java.awt.BorderLayout());
+        pnlDrawer.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                pnlDrawerComponentResized(evt);
+            }
+        });
+        pnlDrawer.setLayout(null);
 
         spnRotationAngle.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(360.0f), Float.valueOf(1.0f)));
 
@@ -129,7 +134,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlDrawer, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(btnSave)
@@ -163,7 +168,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     .addComponent(btnLoad)
                     .addComponent(btnAddShape))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(lblZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -223,6 +228,11 @@ public class FrmShapeEditor extends javax.swing.JFrame {
     private void btnAddShapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShapeActionPerformed
         popupMenuShapeOption.show(btnAddShape, 0, btnAddShape.getHeight());
     }//GEN-LAST:event_btnAddShapeActionPerformed
+
+    private void pnlDrawerComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlDrawerComponentResized
+        canvas.setBounds(0, 0, this.pnlDrawer.getWidth(),
+                this.pnlDrawer.getHeight());
+    }//GEN-LAST:event_pnlDrawerComponentResized
 
     private void loadShapeOptions() {
         popupMenuShapeOption.addShapeOption("Rectangle", new ActionListener() {
