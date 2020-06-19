@@ -242,7 +242,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     Rectangle rectangle = new Rectangle(20, 150, 200, 150);
                     rectangle.setAngle(Float.valueOf(
                             String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(rectangle);
+                    canvas.addShape(rectangle);            
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding rectangle", ex);
                 }
@@ -334,6 +334,12 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     new Dimension(btnOptionWidth, btnOptionHeight));
             btnShapeOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             btnShapeOption.addActionListener(action);
+            btnShapeOption.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    popupMenuShapeOption.setVisible(false);
+                }
+            });
             btnShapeOption.setMargin(new Insets(2, 2, 2, 2));
             this.pnlShapeOptions.add(btnShapeOption);
 
