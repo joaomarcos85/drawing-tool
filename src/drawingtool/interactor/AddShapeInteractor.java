@@ -25,9 +25,11 @@ public class AddShapeInteractor extends Interactor {
         }
         this.pendingShape.setX(msPt.x);
         this.pendingShape.setY(msPt.y);
+        this.pendingShape.setWidth(0);
+        this.pendingShape.setHeight(0);
 
-        //Add the shape to the canvas
-        this.canvas.addShape(pendingShape);
+        //Add the shape to the canvas without repaint
+        this.canvas.addShape(pendingShape, false);
     }
 
     @Override
@@ -42,16 +44,25 @@ public class AddShapeInteractor extends Interactor {
 
         this.pendingShape.setWidth(newWidth);
         this.pendingShape.setHeight(newHeight);
-
         this.canvas.repaint();
-
     }
 
     @Override
     public void mouseReleased(MouseEvent evt) {
-        if (pendingShape != null) {
-            this.setPendingShape(null);
+        if (pendingShape == null) {
+            return;
         }
+
+        if (this.pendingShape.getWidth() <= 0) {
+            this.pendingShape.setWidth(100);
+        }
+        
+        if (this.pendingShape.getHeight()<= 0) {
+            this.pendingShape.setHeight(100);
+        }
+
+        this.canvas.repaint();
+        this.setPendingShape(null);
     }
 
     public void setPendingShape(Shape pendingShape) {
