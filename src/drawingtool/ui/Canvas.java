@@ -191,9 +191,15 @@ public class Canvas extends javax.swing.JPanel {
     }
 
     public void addShape(Shape shape) {
+        this.addShape(shape, true);
+    }
+
+    public void addShape(Shape shape, boolean repaintCanvas) {
         this.document.getShapes().add(shape);
-        //Update the canvas
-        this.repaint();
+        if (repaintCanvas) {
+            //Update the canvas
+            this.repaint();
+        }
     }
 
     public void removeShape(Shape shape) {
