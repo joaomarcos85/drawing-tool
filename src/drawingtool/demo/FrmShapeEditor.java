@@ -242,7 +242,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     Rectangle rectangle = new Rectangle(20, 150, 200, 150);
                     rectangle.setAngle(Float.valueOf(
                             String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(rectangle);     
+                    canvas.addShapeOnUserClick(rectangle);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding rectangle", ex);
                 }
@@ -255,7 +255,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 try {
                     Ellipse ellipse = new Ellipse(20, 150, 200, 150);
                     ellipse.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(ellipse);
+                    canvas.addShapeOnUserClick(ellipse);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding ellipse", ex);
                 }
@@ -268,7 +268,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 try {
                     Arrow arrow = new Arrow(20, 150, 200, 150);
                     arrow.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(arrow);
+                    canvas.addShapeOnUserClick(arrow);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding arrow", ex);
                 }
@@ -290,7 +290,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                         return;
                     }
                     text.setText(String.valueOf(value));
-                    canvas.addShape(text);
+                    canvas.addShapeOnUserClick(text);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding text", ex);
                 }
@@ -303,7 +303,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 try {
                     Image image = new Image(new File("test/loremipsum.png"), 20, 150, 200, 150);
                     image.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(image);
+                    canvas.addShapeOnUserClick(image);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding image", ex);
                 }
