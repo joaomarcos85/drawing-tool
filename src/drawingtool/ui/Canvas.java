@@ -1,5 +1,6 @@
 package drawingtool.ui;
 
+import drawingtool.interactor.AddShapeInteractor;
 import drawingtool.interactor.CursorInteractor;
 import drawingtool.interactor.DeleteInteractor;
 import java.awt.Graphics;
@@ -53,6 +54,7 @@ public class Canvas extends javax.swing.JPanel {
         this.addInteractor(new MoveInteractor(this));
         this.addInteractor(new RotateInteractor(this));
         this.addInteractor(new DeleteInteractor(this));
+        this.addInteractor(new AddShapeInteractor(this));
     }
 
     @Override
@@ -124,7 +126,7 @@ public class Canvas extends javax.swing.JPanel {
                 }
             }
         });
-        
+
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent evt) {
@@ -158,8 +160,8 @@ public class Canvas extends javax.swing.JPanel {
 
     public void setShapeSelector(Selector shapeSelector) {
         this.shapeSelector = shapeSelector;
-        
-        if( this.shapeSelector == null){
+
+        if (this.shapeSelector == null) {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
@@ -198,6 +200,14 @@ public class Canvas extends javax.swing.JPanel {
         this.document.getShapes().remove(shape);
         //Update the canvas
         this.repaint();
+    }
+
+    public void addShapeOnUserClick(Shape shape) {
+        for (Interactor interactor : this.getInteractors()) {
+            if (interactor instanceof AddShapeInteractor) {
+                ((AddShapeInteractor) interactor).setPendingShape(shape);
+            }
+        }
     }
 
     public ArrayList<Shape> getShapes() {

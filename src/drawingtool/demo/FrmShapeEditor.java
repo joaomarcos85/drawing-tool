@@ -56,7 +56,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
 
             }
         });
-
+        
         //Load the shape options
         loadShapeOptions();
     }
@@ -79,7 +79,12 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         setTitle("Canvas Editor Demo");
 
         pnlDrawer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlDrawer.setLayout(new java.awt.BorderLayout());
+        pnlDrawer.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                pnlDrawerComponentResized(evt);
+            }
+        });
+        pnlDrawer.setLayout(null);
 
         spnRotationAngle.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(360.0f), Float.valueOf(1.0f)));
 
@@ -129,7 +134,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlDrawer, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(btnSave)
@@ -163,7 +168,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     .addComponent(btnLoad)
                     .addComponent(btnAddShape))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(lblZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -224,6 +229,11 @@ public class FrmShapeEditor extends javax.swing.JFrame {
         popupMenuShapeOption.show(btnAddShape, 0, btnAddShape.getHeight());
     }//GEN-LAST:event_btnAddShapeActionPerformed
 
+    private void pnlDrawerComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlDrawerComponentResized
+        canvas.setBounds(0, 0, this.pnlDrawer.getWidth(),
+                this.pnlDrawer.getHeight());
+    }//GEN-LAST:event_pnlDrawerComponentResized
+
     private void loadShapeOptions() {
         popupMenuShapeOption.addShapeOption("Rectangle", new ActionListener() {
             @Override
@@ -232,7 +242,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     Rectangle rectangle = new Rectangle(20, 150, 200, 150);
                     rectangle.setAngle(Float.valueOf(
                             String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(rectangle);
+                    canvas.addShapeOnUserClick(rectangle);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding rectangle", ex);
                 }
@@ -245,7 +255,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 try {
                     Ellipse ellipse = new Ellipse(20, 150, 200, 150);
                     ellipse.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(ellipse);
+                    canvas.addShapeOnUserClick(ellipse);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding ellipse", ex);
                 }
@@ -258,7 +268,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 try {
                     Arrow arrow = new Arrow(20, 150, 200, 150);
                     arrow.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(arrow);
+                    canvas.addShapeOnUserClick(arrow);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding arrow", ex);
                 }
@@ -280,7 +290,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                         return;
                     }
                     text.setText(String.valueOf(value));
-                    canvas.addShape(text);
+                    canvas.addShapeOnUserClick(text);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding text", ex);
                 }
@@ -293,7 +303,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                 try {
                     Image image = new Image(new File("test/loremipsum.png"), 20, 150, 200, 150);
                     image.setAngle(Float.valueOf(String.valueOf(spnRotationAngle.getValue())));
-                    canvas.addShape(image);
+                    canvas.addShapeOnUserClick(image);
                 } catch (Exception ex) {
                     Log.LOGGER.log(Level.SEVERE, "Error adding image", ex);
                 }
@@ -324,6 +334,13 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     new Dimension(btnOptionWidth, btnOptionHeight));
             btnShapeOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             btnShapeOption.addActionListener(action);
+            btnShapeOption.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    popupMenuShapeOption.setVisible(false);
+                    canvas.repaint();
+                }
+            });
             btnShapeOption.setMargin(new Insets(2, 2, 2, 2));
             this.pnlShapeOptions.add(btnShapeOption);
 
