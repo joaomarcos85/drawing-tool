@@ -70,8 +70,10 @@ public class AddShapeInteractor extends Interactor {
 
     public void setPendingShape(Shape pendingShape) {
         this.pendingShape = pendingShape;
-        this.canvas.setCursor(Cursor.
-                getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    }
+
+    public Shape getPendingShape() {
+        return pendingShape;
     }
 
 }

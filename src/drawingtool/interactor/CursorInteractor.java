@@ -23,12 +23,23 @@ public class CursorInteractor extends Interactor {
             return;
         }
         int cursorType = -1;
-        for (Shape shape : canvas.getShapes()) {
-            if (shape.isSelected()) {
-                int cursor = canvas.getShapeSelector().getCursor(msPt);
-                if (cursor != -1) {
-                    cursorType = cursor;
-                    break;
+
+        for (Interactor interactor : this.canvas.getInteractors()) {
+            if (interactor instanceof AddShapeInteractor) {
+                if ((((AddShapeInteractor) interactor).getPendingShape() != null)) {
+                    cursorType = Cursor.CROSSHAIR_CURSOR;
+                }
+            }
+        }
+
+        if (cursorType == -1) {
+            for (Shape shape : canvas.getShapes()) {
+                if (shape.isSelected()) {
+                    int cursor = canvas.getShapeSelector().getCursor(msPt);
+                    if (cursor != -1) {
+                        cursorType = cursor;
+                        break;
+                    }
                 }
             }
         }
