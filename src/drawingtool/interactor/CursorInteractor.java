@@ -24,12 +24,10 @@ public class CursorInteractor extends Interactor {
         }
         int cursorType = -1;
 
-        for (Interactor interactor : this.canvas.getInteractors()) {
-            if (interactor instanceof AddShapeInteractor) {
-                if ((((AddShapeInteractor) interactor).getPendingShape() != null)) {
-                    cursorType = Cursor.CROSSHAIR_CURSOR;
-                }
-            }
+        AddShapeInteractor addShapeInteractor = canvas.
+                getInteractor(AddShapeInteractor.class);
+        if (addShapeInteractor.getPendingShape() != null) {
+            cursorType = Cursor.CROSSHAIR_CURSOR;
         }
 
         if (cursorType == -1) {
