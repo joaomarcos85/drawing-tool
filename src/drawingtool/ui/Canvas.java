@@ -28,8 +28,6 @@ import drawingtool.shapes.Shape;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Collection;
-import java.util.List;
 
 /**
  *
@@ -198,10 +196,10 @@ public class Canvas extends javax.swing.JPanel {
                 return type.cast(interactor);
             }
         }
-        
+
         return null;
     }
-   
+
     public void addShape(Shape shape) {
         this.addShape(shape, true);
     }
@@ -221,11 +219,9 @@ public class Canvas extends javax.swing.JPanel {
     }
 
     public void addShapeOnUserClick(Shape shape) {
-        for (Interactor interactor : this.getInteractors()) {
-            if (interactor instanceof AddShapeInteractor) {
-                ((AddShapeInteractor) interactor).setPendingShape(shape);
-            }
-        }
+        AddShapeInteractor addShapeInteractor
+                = this.getInteractor(AddShapeInteractor.class);
+        addShapeInteractor.setPendingShape(shape);
     }
 
     public ArrayList<Shape> getShapes() {
