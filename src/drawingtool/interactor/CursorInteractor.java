@@ -35,12 +35,13 @@ public class CursorInteractor extends Interactor {
             return Cursor.CROSSHAIR_CURSOR;
         }
 
-        for (Shape shape : this.canvas.getShapes()) {
-            if (shape.isSelected()) {
-                int cursor = canvas.getShapeSelector().getCursor(mousePoint);
-                if (cursor != -1) {
-                    return cursor;
-                }
+        Shape selectedShape = this.canvas.getSelectedShape();
+        //Checks if there is a selected shape
+        if (selectedShape != null) {
+            //Gets the correct cursor type
+            int cursor = canvas.getShapeSelector().getCursor(mousePoint);
+            if (cursor != -1) {
+                return cursor;
             }
         }
 
