@@ -22,29 +22,28 @@ public class CursorInteractor extends Interactor {
         if (msPt == null || canvas.getShapeSelector() == null) {
             return;
         }
-        int cursorType = -1;
 
-        AddShapeInteractor addShapeInteractor = canvas.
-                getInteractor(AddShapeInteractor.class);
+        this.canvas.setCursor(Cursor.getPredefinedCursor(
+                this.getCurrentCursorType(msPt)));
+    }
+
+    private int getCurrentCursorType(Point mousePoint) {
+        //Checks if is pending to add a new shape on canvas
+        AddShapeInteractor addShapeInteractor = this.canvas.getInteractor(
+                AddShapeInteractor.class);
         if (addShapeInteractor.getPendingShape() != null) {
-            cursorType = Cursor.CROSSHAIR_CURSOR;
+            return Cursor.CROSSHAIR_CURSOR;
         }
 
-        if (cursorType == -1) {
-            for (Shape shape : canvas.getShapes()) {
-                if (shape.isSelected()) {
-                    int cursor = canvas.getShapeSelector().getCursor(msPt);
-                    if (cursor != -1) {
-                        cursorType = cursor;
-                        break;
-                    }
+        for (Shape shape : this.canvas.getShapes()) {
+            if (shape.isSelected()) {
+                int cursor = canvas.getShapeSelector().getCursor(mousePoint);
+                if (cursor != -1) {
+                    return cursor;
                 }
             }
         }
 
-        if (cursorType == -1) {
-            cursorType = Cursor.DEFAULT_CURSOR;
-        }
-        canvas.setCursor(Cursor.getPredefinedCursor(cursorType));
+        return Cursor.DEFAULT_CURSOR;
     }
 }
