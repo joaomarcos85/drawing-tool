@@ -1,5 +1,6 @@
 package drawingtool.interactor;
 
+import drawingtool.selector.Selector;
 import drawingtool.shapes.Shape;
 import drawingtool.ui.Canvas;
 import java.awt.Cursor;
@@ -62,10 +63,15 @@ public class AddShapeInteractor extends Interactor {
         if (this.pendingShape.getHeight() <= 0) {
             this.pendingShape.setHeight(100);
         }
+        this.pendingShape.setSelected(true);
+        //Defines the Selector for the added shape
+        canvas.setShapeSelector(new Selector(this.pendingShape, canvas));
+
+        this.canvas.setCursor(Cursor.getPredefinedCursor(
+                Cursor.DEFAULT_CURSOR));
+        this.setPendingShape(null);
         //Update the canvas
         this.canvas.repaint();
-        this.setPendingShape(null);
-        this.canvas.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     public void setPendingShape(Shape pendingShape) {
