@@ -56,7 +56,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
 
             }
         });
-        
+
         //Load the shape options
         loadShapeOptions();
     }
@@ -168,7 +168,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     .addComponent(btnLoad)
                     .addComponent(btnAddShape))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlDrawer, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(lblZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -230,8 +230,8 @@ public class FrmShapeEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddShapeActionPerformed
 
     private void pnlDrawerComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlDrawerComponentResized
-        canvas.setBounds(0, 0, this.pnlDrawer.getWidth(),
-                this.pnlDrawer.getHeight());
+        canvas.setBounds(1, 1, this.pnlDrawer.getWidth() - 2,
+                this.pnlDrawer.getHeight() - 2);
     }//GEN-LAST:event_pnlDrawerComponentResized
 
     private void loadShapeOptions() {
@@ -334,7 +334,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     new Dimension(btnOptionWidth, btnOptionHeight));
             btnShapeOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             btnShapeOption.addActionListener(action);
-            btnShapeOption.addActionListener(new ActionListener(){
+            btnShapeOption.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     popupMenuShapeOption.setVisible(false);
