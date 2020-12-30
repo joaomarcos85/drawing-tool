@@ -24,3 +24,5 @@ hs_err_pid*
 /build/
 /dist/
 /log/
+/nbproject/private/
+/example.json

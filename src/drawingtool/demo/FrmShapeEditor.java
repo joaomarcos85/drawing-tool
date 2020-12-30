@@ -286,7 +286,7 @@ public class FrmShapeEditor extends javax.swing.JFrame {
                     Object value = JOptionPane.showInputDialog(FrmShapeEditor.this,
                             "Enter the text", "Insert Text", JOptionPane.QUESTION_MESSAGE);
                     //Validate the text
-                    if (value == null || String.valueOf(value).isBlank()) {
+                    if (value == null || String.valueOf(value).trim().equals("")) {
                         return;
                     }
                     text.setText(String.valueOf(value));
